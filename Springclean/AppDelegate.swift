@@ -1,0 +1,335 @@
+//
+//  AppDelegate.swift
+//  Springclean
+//
+//  Created by Daniel Love on 08/06/2014.
+//  Copyright (c) 2014 Daniel Love. All rights reserved.
+//
+
+import Cocoa
+import CocoaMobileDevice
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+                            
+	@IBOutlet var window: NSWindow;
+	@IBOutlet var _connectView: VLNConnectView;
+	@IBOutlet var _deviceSelectionView: VLNDeviceSelectionView;
+	
+	var deviceManager: VLNDeviceManager!;
+	
+	var devices: NSMutableArray!
+	{
+		didSet
+		{
+			deviceListWasUpdated();
+		}
+	}
+	
+	init()
+	{
+		self.devices = NSMutableArray();
+		self.deviceManager = VLNDeviceManager();
+		
+		super.init();
+	}
+	
+    func applicationDidFinishLaunching(aNotification: NSNotification?)
+	{
+		showConnectToDeviceView(true);
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: CMDeviceMangerDeviceAddedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: CMDeviceMangerDeviceRemovedNotification, object: nil);
+		
+		CMDeviceManger.sharedManager().subscribe(nil);
+    }
+	
+	func applicationWillTerminate(aNotification: NSNotification?)
+	{
+		// Insert code here to tear down your application
+	}
+	
+// MARK: Device Not Connected
+	var connectView: VLNConnectView
+	{
+		get
+		{
+			if (!self._connectView)
+			{
+				var nib = NSNib(nibNamed: "VLNConnectView", bundle: nil);
+				nib.instantiateWithOwner(self, topLevelObjects: nil);
+				self.connectView.translatesAutoresizingMaskIntoConstraints = false;
+			}
+			
+			return self._connectView;
+		}
+	}
+	
+	func showConnectToDeviceView(show:Bool)
+	{
+		if (self.connectView.superview != self.window.contentView as NSView)
+		{
+			self.window.contentView.addSubview(self.connectView);
+			
+			var views: Dictionary<String, NSView> = ["connectView": self.connectView];
+			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[connectView]|", options: nil, metrics: nil, views: views));
+			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[connectView]|", options: nil, metrics: nil, views: views));
+		}
+		
+		self.connectView.updateConstraints();
+		self.connectView.hidden = !show;
+	}
+	
+// MARK: Multiple Devices Connected
+	var deviceSelectionView: VLNDeviceSelectionView
+	{
+		get
+		{
+			if (!self._deviceSelectionView)
+			{
+				var nib = NSNib(nibNamed: "VLNDeviceSelectionView", bundle: nil);
+				nib.instantiateWithOwner(self, topLevelObjects: nil);
+				self.deviceSelectionView.translatesAutoresizingMaskIntoConstraints = false;
+			}
+			
+			return self._deviceSelectionView;
+		}
+	}
+	
+	func showDeviceSelectionView(show:Bool)
+	{
+		if (self.deviceSelectionView.superview != self.window.contentView as NSView)
+		{
+			self.window.contentView.addSubview(self.deviceSelectionView);
+			
+			var views: Dictionary<String, NSView> = ["deviceSelectionView": self.deviceSelectionView];
+			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
+			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
+		}
+		
+		self.deviceSelectionView.updateConstraints();
+		self.deviceSelectionView.hidden = !show;
+		
+	}
+	
+// MARK: Device list updated
+	func deviceListWasUpdated()
+	{
+		reloadDeviceList(
+		{
+			if (self.devices.count < 1)
+			{
+				self.showConnectToDeviceView(true);
+			}
+			else
+			{
+				self.showDeviceSelectionView((self.devices.count >= 2));
+				self.showConnectToDeviceView(false);
+			}
+		});
+	}
+	
+	func deviceAddedNotification(notification: NSNotification)
+	{
+		deviceListWasUpdated();
+	}
+	
+	func deviceRemovedNotification(notification: NSNotification)
+	{
+		deviceListWasUpdated();
+	}
+	
+	func reloadDeviceList(completion: (() -> Void))
+	{
+		dispatch_async(dispatch_get_main_queue(),
+		{
+			self.devices?.removeAllObjects();
+			let devices: NSArray = CMDeviceManger.sharedManager().devices();
+			for device:CMDevice! in devices
+			{
+				if (!device.deviceName)
+				{
+					var error: NSError?;
+					var connecting: Bool = device.connect(&error);
+					var connected: Bool = device.connected;
+					if (connected)
+					{
+						device.loadDeviceName();
+						device.disconnect();
+					}
+					
+					if (error) {
+						NSLog("error %@", error!);
+					}
+				}
+				
+				var deviceObj: VLNDevice = VLNDevice();
+				deviceObj.name = device.deviceName;
+				self.deviceManager.devices.addObject(deviceObj);
+				self.devices.addObject(device);
+			}
+			
+			completion();
+		});
+	}
+	
+// MARK: CoreData
+	
+    @IBAction func saveAction(sender: AnyObject) {
+        // Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
+        var error: NSError? = nil
+        
+        if let moc = self.managedObjectContext {
+            if !moc.commitEditing() {
+                println("\(NSStringFromClass(self.dynamicType)) unable to commit editing before saving")
+            }
+            if !moc.save(&error) {
+                NSApplication.sharedApplication().presentError(error)
+            }
+        }
+    }
+
+    var applicationFilesDirectory: NSURL {
+        // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "net.daniellove.Springclean" in the user's Application Support directory.
+        let fileManager = NSFileManager.defaultManager()
+        let urls = fileManager.URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
+        let appSupportURL: AnyObject = urls[urls.endIndex - 1]
+        return appSupportURL.URLByAppendingPathComponent("net.daniellove.Springclean")
+    }
+
+    var managedObjectModel: NSManagedObjectModel {
+        // Creates if necessary and returns the managed object model for the application.
+        if let mom = _managedObjectModel {
+            return mom
+        }
+    	
+        let modelURL = NSBundle.mainBundle().URLForResource("Springclean", withExtension: "momd")
+        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
+        return _managedObjectModel!
+    }
+    var _managedObjectModel: NSManagedObjectModel? = nil
+
+    var persistentStoreCoordinator: NSPersistentStoreCoordinator? {
+        // Returns the persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
+        if let psc = _persistentStoreCoordinator {
+            return psc
+        }
+        
+        let mom = self.managedObjectModel
+        
+        let fileManager = NSFileManager.defaultManager()
+        let applicationFilesDirectory = self.applicationFilesDirectory
+        var error: NSError? = nil
+        
+        let optProperties: NSDictionary? = applicationFilesDirectory.resourceValuesForKeys([NSURLIsDirectoryKey], error: &error)
+        
+        if let properties = optProperties {
+            if !properties[NSURLIsDirectoryKey].boolValue {
+                // Customize and localize this error.
+                let failureDescription = "Expected a folder to store application data, found a file \(applicationFilesDirectory.path)."
+                let dict = NSMutableDictionary()
+                dict[NSLocalizedDescriptionKey] = failureDescription
+                error = NSError.errorWithDomain("YOUR_ERROR_DOMAIN", code: 101, userInfo: dict)
+                
+                NSApplication.sharedApplication().presentError(error)
+                return nil
+            }
+        } else {
+            var ok = false
+            if error!.code == NSFileReadNoSuchFileError {
+                ok = fileManager.createDirectoryAtPath(applicationFilesDirectory.path, withIntermediateDirectories: true, attributes: nil, error: &error)
+            }
+            if !ok {
+                NSApplication.sharedApplication().presentError(error)
+                return nil
+            }
+        }
+        
+        let url = applicationFilesDirectory.URLByAppendingPathComponent("Springclean.storedata")
+        var coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
+        if coordinator.addPersistentStoreWithType(NSXMLStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+            NSApplication.sharedApplication().presentError(error)
+            return nil
+        }
+        _persistentStoreCoordinator = coordinator
+        
+        return _persistentStoreCoordinator
+    }
+    var _persistentStoreCoordinator: NSPersistentStoreCoordinator? = nil
+
+    var managedObjectContext: NSManagedObjectContext? {
+        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
+        if let moc = _managedObjectContext {
+            return moc
+        }
+        
+        let coordinator = self.persistentStoreCoordinator
+        if !coordinator {
+            var dict = NSMutableDictionary()
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the store"
+            dict[NSLocalizedFailureReasonErrorKey] = "There was an error building up the data file."
+            let error = NSError.errorWithDomain("YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            NSApplication.sharedApplication().presentError(error)
+            return nil
+        }
+        _managedObjectContext = NSManagedObjectContext()
+        _managedObjectContext!.persistentStoreCoordinator = coordinator!
+            
+        return _managedObjectContext
+    }
+    var _managedObjectContext: NSManagedObjectContext? = nil
+
+    func windowWillReturnUndoManager(window: NSWindow?) -> NSUndoManager? {
+        // Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
+        if let moc = self.managedObjectContext {
+            return moc.undoManager
+        } else {
+            return nil
+        }
+    }
+
+    func applicationShouldTerminate(sender: NSApplication) -> NSApplicationTerminateReply {
+        // Save changes in the application's managed object context before the application terminates.
+        
+        if !_managedObjectContext {
+            // Accesses the underlying stored property because we don't want to cause the lazy initialization
+            return .TerminateNow
+        }
+        let moc = self.managedObjectContext!
+        if !moc.commitEditing() {
+            println("\(NSStringFromClass(self.dynamicType)) unable to commit editing to terminate")
+            return .TerminateCancel
+        }
+        
+        if !moc.hasChanges {
+            return .TerminateNow
+        }
+        
+        var error: NSError? = nil
+        if !moc.save(&error) {
+            // Customize this code block to include application-specific recovery steps.              
+            let result = sender.presentError(error)
+            if (result) {
+                return .TerminateCancel
+            }
+
+            let question = "Could not save changes while quitting. Quit anyway?" // NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message")
+            let info = "Quitting now will lose any changes you have made since the last successful save" // NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
+            let quitButton = "Quit anyway" // NSLocalizedString(@"Quit anyway", @"Quit anyway button title")
+            let cancelButton = "Cancel" // NSLocalizedString(@"Cancel", @"Cancel button title")
+            let alert = NSAlert()
+            alert.messageText = question
+            alert.informativeText = info
+            alert.addButtonWithTitle(quitButton)
+            alert.addButtonWithTitle(cancelButton)
+
+            let answer = alert.runModal()
+            if answer == NSAlertFirstButtonReturn {
+                return .TerminateCancel
+            }
+        }
+
+        return .TerminateNow
+    }
+
+}
+

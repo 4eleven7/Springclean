@@ -1,0 +1,522 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		424E726919462EBC003393DE /* VLNDeviceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */; };
+		424E726A19462EBC003393DE /* VLNDeviceSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */; };
+		427FDF21194621B30066127B /* VLNConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427FDF20194621B30066127B /* VLNConnectView.xib */; };
+		427FDF23194621C20066127B /* VLNConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427FDF22194621C20066127B /* VLNConnectView.swift */; };
+		42AD070F19461AD900CE37D4 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AD070E19461AD900CE37D4 /* MainWindow.swift */; };
+		42B9599D19450052005E11F1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B9599C19450052005E11F1 /* main.swift */; };
+		42B9599F19450052005E11F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B9599E19450052005E11F1 /* AppDelegate.swift */; };
+		42B959A219450052005E11F1 /* Springclean.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 42B959A019450052005E11F1 /* Springclean.xcdatamodeld */; };
+		42B959A419450052005E11F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42B959A319450052005E11F1 /* Images.xcassets */; };
+		42B959A719450052005E11F1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B959A519450052005E11F1 /* MainMenu.xib */; };
+		42B959B319450052005E11F1 /* SpringcleanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B959B219450052005E11F1 /* SpringcleanTests.swift */; };
+		42B959EE19452572005E11F1 /* CocoaMobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */; };
+		42B959F219452787005E11F1 /* CocoaMobileDevice.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */; };
+		42D719B819464D5F001AE608 /* VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D719B719464D5F001AE608 /* VLNDeviceManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		42B959AD19450052005E11F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 42B9598F19450052005E11F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42B9599619450052005E11F1;
+			remoteInfo = Springclean;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		42B959F11945273E005E11F1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				42B959F219452787005E11F1 /* CocoaMobileDevice.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceSelectionView.swift; sourceTree = "<group>"; };
+		424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNDeviceSelectionView.xib; sourceTree = "<group>"; };
+		427FDF20194621B30066127B /* VLNConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNConnectView.xib; sourceTree = "<group>"; };
+		427FDF22194621C20066127B /* VLNConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNConnectView.swift; sourceTree = "<group>"; };
+		42AD070E19461AD900CE37D4 /* MainWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		42B9599719450052005E11F1 /* Springclean.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Springclean.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		42B9599B19450052005E11F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42B9599C19450052005E11F1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		42B9599E19450052005E11F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		42B959A119450052005E11F1 /* Springclean.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Springclean.xcdatamodel; sourceTree = "<group>"; };
+		42B959A319450052005E11F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		42B959A619450052005E11F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		42B959AC19450052005E11F1 /* SpringcleanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpringcleanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		42B959B119450052005E11F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42B959B219450052005E11F1 /* SpringcleanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringcleanTests.swift; sourceTree = "<group>"; };
+		42B959E91945212E005E11F1 /* Springclean-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Springclean-Bridging-Header.h"; sourceTree = "<group>"; };
+		42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaMobileDevice.framework; path = Springclean/External/CocoaMobileDevice.framework; sourceTree = "<group>"; };
+		42D719B719464D5F001AE608 /* VLNDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		42B9599419450052005E11F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42B959EE19452572005E11F1 /* CocoaMobileDevice.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42B959A919450052005E11F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		424E726619462EBC003393DE /* DeviceSelectionView */ = {
+			isa = PBXGroup;
+			children = (
+				424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */,
+				424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */,
+			);
+			path = DeviceSelectionView;
+			sourceTree = "<group>";
+		};
+		427FDF1F194621B30066127B /* ConnectView */ = {
+			isa = PBXGroup;
+			children = (
+				427FDF22194621C20066127B /* VLNConnectView.swift */,
+				427FDF20194621B30066127B /* VLNConnectView.xib */,
+			);
+			path = ConnectView;
+			sourceTree = "<group>";
+		};
+		42B9598E19450052005E11F1 = {
+			isa = PBXGroup;
+			children = (
+				42B9599919450052005E11F1 /* Springclean */,
+				42B959AF19450052005E11F1 /* SpringcleanTests */,
+				42D719B619464D30001AE608 /* Frameworks */,
+				42B9599819450052005E11F1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		42B9599819450052005E11F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				42B9599719450052005E11F1 /* Springclean.app */,
+				42B959AC19450052005E11F1 /* SpringcleanTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		42B9599919450052005E11F1 /* Springclean */ = {
+			isa = PBXGroup;
+			children = (
+				427FDF1F194621B30066127B /* ConnectView */,
+				424E726619462EBC003393DE /* DeviceSelectionView */,
+				42D719B719464D5F001AE608 /* VLNDeviceManager.swift */,
+				42B9599E19450052005E11F1 /* AppDelegate.swift */,
+				42AD070E19461AD900CE37D4 /* MainWindow.swift */,
+				42B959A319450052005E11F1 /* Images.xcassets */,
+				42B9599A19450052005E11F1 /* Supporting Files */,
+				42B959E91945212E005E11F1 /* Springclean-Bridging-Header.h */,
+			);
+			path = Springclean;
+			sourceTree = "<group>";
+		};
+		42B9599A19450052005E11F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42B959A519450052005E11F1 /* MainMenu.xib */,
+				42B959A019450052005E11F1 /* Springclean.xcdatamodeld */,
+				42B9599B19450052005E11F1 /* Info.plist */,
+				42B9599C19450052005E11F1 /* main.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42B959AF19450052005E11F1 /* SpringcleanTests */ = {
+			isa = PBXGroup;
+			children = (
+				42B959B219450052005E11F1 /* SpringcleanTests.swift */,
+				42B959B019450052005E11F1 /* Supporting Files */,
+			);
+			path = SpringcleanTests;
+			sourceTree = "<group>";
+		};
+		42B959B019450052005E11F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42B959B119450052005E11F1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42D719B619464D30001AE608 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42B9599619450052005E11F1 /* Springclean */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42B959B619450052005E11F1 /* Build configuration list for PBXNativeTarget "Springclean" */;
+			buildPhases = (
+				42B9599319450052005E11F1 /* Sources */,
+				42B9599419450052005E11F1 /* Frameworks */,
+				42B9599519450052005E11F1 /* Resources */,
+				42B959F11945273E005E11F1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Springclean;
+			productName = Springclean;
+			productReference = 42B9599719450052005E11F1 /* Springclean.app */;
+			productType = "com.apple.product-type.application";
+		};
+		42B959AB19450052005E11F1 /* SpringcleanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42B959B919450052005E11F1 /* Build configuration list for PBXNativeTarget "SpringcleanTests" */;
+			buildPhases = (
+				42B959A819450052005E11F1 /* Sources */,
+				42B959A919450052005E11F1 /* Frameworks */,
+				42B959AA19450052005E11F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				42B959AE19450052005E11F1 /* PBXTargetDependency */,
+			);
+			name = SpringcleanTests;
+			productName = SpringcleanTests;
+			productReference = 42B959AC19450052005E11F1 /* SpringcleanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		42B9598F19450052005E11F1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Daniel Love";
+				TargetAttributes = {
+					42B9599619450052005E11F1 = {
+						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = N78TT7KDX5;
+					};
+					42B959AB19450052005E11F1 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 42B9599619450052005E11F1;
+					};
+				};
+			};
+			buildConfigurationList = 42B9599219450052005E11F1 /* Build configuration list for PBXProject "Springclean" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 42B9598E19450052005E11F1;
+			productRefGroup = 42B9599819450052005E11F1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42B9599619450052005E11F1 /* Springclean */,
+				42B959AB19450052005E11F1 /* SpringcleanTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		42B9599519450052005E11F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				424E726A19462EBC003393DE /* VLNDeviceSelectionView.xib in Resources */,
+				42B959A419450052005E11F1 /* Images.xcassets in Resources */,
+				42B959A719450052005E11F1 /* MainMenu.xib in Resources */,
+				427FDF21194621B30066127B /* VLNConnectView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42B959AA19450052005E11F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		42B9599319450052005E11F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42AD070F19461AD900CE37D4 /* MainWindow.swift in Sources */,
+				42B9599F19450052005E11F1 /* AppDelegate.swift in Sources */,
+				424E726919462EBC003393DE /* VLNDeviceSelectionView.swift in Sources */,
+				42B9599D19450052005E11F1 /* main.swift in Sources */,
+				427FDF23194621C20066127B /* VLNConnectView.swift in Sources */,
+				42B959A219450052005E11F1 /* Springclean.xcdatamodeld in Sources */,
+				42D719B819464D5F001AE608 /* VLNDeviceManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42B959A819450052005E11F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42B959B319450052005E11F1 /* SpringcleanTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		42B959AE19450052005E11F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42B9599619450052005E11F1 /* Springclean */;
+			targetProxy = 42B959AD19450052005E11F1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		42B959A519450052005E11F1 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42B959A619450052005E11F1 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		42B959B419450052005E11F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		42B959B519450052005E11F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		42B959B719450052005E11F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Springclean/External",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = Springclean/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Springclean/Springclean-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		42B959B819450052005E11F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Springclean/External",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = Springclean/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Springclean/Springclean-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		42B959BA19450052005E11F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Springclean.app/Contents/MacOS/Springclean";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SpringcleanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		42B959BB19450052005E11F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Springclean.app/Contents/MacOS/Springclean";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SpringcleanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		42B9599219450052005E11F1 /* Build configuration list for PBXProject "Springclean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42B959B419450052005E11F1 /* Debug */,
+				42B959B519450052005E11F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		42B959B619450052005E11F1 /* Build configuration list for PBXNativeTarget "Springclean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42B959B719450052005E11F1 /* Debug */,
+				42B959B819450052005E11F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		42B959B919450052005E11F1 /* Build configuration list for PBXNativeTarget "SpringcleanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42B959BA19450052005E11F1 /* Debug */,
+				42B959BB19450052005E11F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		42B959A019450052005E11F1 /* Springclean.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				42B959A119450052005E11F1 /* Springclean.xcdatamodel */,
+			);
+			currentVersion = 42B959A119450052005E11F1 /* Springclean.xcdatamodel */;
+			path = Springclean.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 42B9598F19450052005E11F1 /* Project object */;
+}

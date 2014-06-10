@@ -1,0 +1,6 @@
+framework module CocoaMobileDevice {
+  umbrella header "CocoaMobileDevice.h"
+
+  export *
+  module * { export * }
+}
