@@ -10,6 +10,8 @@ import Cocoa
 
 class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 {
+	var delegate: VLNDeviceSelectionDelegate?;
+	
 // MARK: NSTableViewDataSource
 	func numberOfRowsInTableView(tableView: NSTableView!) -> Int
 	{
@@ -26,6 +28,12 @@ class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 	
 	func tableViewSelectionDidChange(aNotification: NSNotification!)
 	{
-		NSLog("selected");
+		var tableView:NSTableView = aNotification.object as NSTableView;
+		self.delegate?.deviceSelectionView(self, selectedIndex: tableView.selectedRow);
 	}
+}
+
+@class_protocol protocol VLNDeviceSelectionDelegate
+{
+	func deviceSelectionView(view:VLNDeviceSelectionView!, selectedIndex:Int);
 }

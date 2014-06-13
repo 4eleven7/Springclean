@@ -247,6 +247,23 @@ FOUNDATION_EXPORT NSString *CMDeviceDomainMobileiTunes;
  */
 @property (nonatomic, readonly) NSString *deviceName;
 
+
+
+/// @name Product Type
+
+/**
+ *  Loads the product type. You are responsible for connecting before calling and disconnecting after.
+ *
+ *  @return YES if the device name was obtained successfully or NO if there was an error.
+ */
+- (BOOL)loadProductType;
+
+/**
+ *  The product type obtained by `loadProductType`.
+ */
+@property (nonatomic, readonly) NSString *productType;
+
+
 /// @name Reading Values
 
 /**

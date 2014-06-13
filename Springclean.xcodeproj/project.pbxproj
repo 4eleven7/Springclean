@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		424E726919462EBC003393DE /* VLNDeviceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */; };
-		424E726A19462EBC003393DE /* VLNDeviceSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */; };
-		427FDF21194621B30066127B /* VLNConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427FDF20194621B30066127B /* VLNConnectView.xib */; };
-		427FDF23194621C20066127B /* VLNConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427FDF22194621C20066127B /* VLNConnectView.swift */; };
 		42AD070F19461AD900CE37D4 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AD070E19461AD900CE37D4 /* MainWindow.swift */; };
 		42B9599D19450052005E11F1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B9599C19450052005E11F1 /* main.swift */; };
 		42B9599F19450052005E11F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B9599E19450052005E11F1 /* AppDelegate.swift */; };
@@ -20,7 +16,15 @@
 		42B959B319450052005E11F1 /* SpringcleanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B959B219450052005E11F1 /* SpringcleanTests.swift */; };
 		42B959EE19452572005E11F1 /* CocoaMobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */; };
 		42B959F219452787005E11F1 /* CocoaMobileDevice.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */; };
-		42D719B819464D5F001AE608 /* VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D719B719464D5F001AE608 /* VLNDeviceManager.swift */; };
+		42D18D44194B417D008BFFAD /* VLNDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D38194B417D008BFFAD /* VLNDevice.swift */; };
+		42D18D45194B417D008BFFAD /* VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D39194B417D008BFFAD /* VLNDeviceManager.swift */; };
+		42D18D46194B417D008BFFAD /* VLNConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D3D194B417D008BFFAD /* VLNConnectView.swift */; };
+		42D18D47194B417D008BFFAD /* VLNConnectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D18D3E194B417D008BFFAD /* VLNConnectView.xib */; };
+		42D18D48194B417D008BFFAD /* VLNDeviceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D40194B417D008BFFAD /* VLNDeviceSelectionView.swift */; };
+		42D18D49194B417D008BFFAD /* VLNDeviceSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D18D41194B417D008BFFAD /* VLNDeviceSelectionView.xib */; };
+		42D18D4A194B417D008BFFAD /* VLNSpringboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D43194B417D008BFFAD /* VLNSpringboard.swift */; };
+		42D18D4C194B46FB008BFFAD /* VLNDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D4B194B46FB008BFFAD /* VLNDeviceTests.swift */; };
+		42D18D4D194B473E008BFFAD /* VLNDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D38194B417D008BFFAD /* VLNDevice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,10 +51,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceSelectionView.swift; sourceTree = "<group>"; };
-		424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNDeviceSelectionView.xib; sourceTree = "<group>"; };
-		427FDF20194621B30066127B /* VLNConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNConnectView.xib; sourceTree = "<group>"; };
-		427FDF22194621C20066127B /* VLNConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNConnectView.swift; sourceTree = "<group>"; };
 		42AD070E19461AD900CE37D4 /* MainWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		42B9599719450052005E11F1 /* Springclean.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Springclean.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42B9599B19450052005E11F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,7 +64,14 @@
 		42B959B219450052005E11F1 /* SpringcleanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringcleanTests.swift; sourceTree = "<group>"; };
 		42B959E91945212E005E11F1 /* Springclean-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Springclean-Bridging-Header.h"; sourceTree = "<group>"; };
 		42B959ED19452572005E11F1 /* CocoaMobileDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaMobileDevice.framework; path = Springclean/External/CocoaMobileDevice.framework; sourceTree = "<group>"; };
-		42D719B719464D5F001AE608 /* VLNDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceManager.swift; sourceTree = "<group>"; };
+		42D18D38194B417D008BFFAD /* VLNDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDevice.swift; sourceTree = "<group>"; };
+		42D18D39194B417D008BFFAD /* VLNDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceManager.swift; sourceTree = "<group>"; };
+		42D18D3D194B417D008BFFAD /* VLNConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNConnectView.swift; sourceTree = "<group>"; };
+		42D18D3E194B417D008BFFAD /* VLNConnectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNConnectView.xib; sourceTree = "<group>"; };
+		42D18D40194B417D008BFFAD /* VLNDeviceSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceSelectionView.swift; sourceTree = "<group>"; };
+		42D18D41194B417D008BFFAD /* VLNDeviceSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLNDeviceSelectionView.xib; sourceTree = "<group>"; };
+		42D18D43194B417D008BFFAD /* VLNSpringboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNSpringboard.swift; sourceTree = "<group>"; };
+		42D18D4B194B46FB008BFFAD /* VLNDeviceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,24 +93,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		424E726619462EBC003393DE /* DeviceSelectionView */ = {
-			isa = PBXGroup;
-			children = (
-				424E726719462EBC003393DE /* VLNDeviceSelectionView.swift */,
-				424E726819462EBC003393DE /* VLNDeviceSelectionView.xib */,
-			);
-			path = DeviceSelectionView;
-			sourceTree = "<group>";
-		};
-		427FDF1F194621B30066127B /* ConnectView */ = {
-			isa = PBXGroup;
-			children = (
-				427FDF22194621C20066127B /* VLNConnectView.swift */,
-				427FDF20194621B30066127B /* VLNConnectView.xib */,
-			);
-			path = ConnectView;
-			sourceTree = "<group>";
-		};
 		42B9598E19450052005E11F1 = {
 			isa = PBXGroup;
 			children = (
@@ -126,9 +115,9 @@
 		42B9599919450052005E11F1 /* Springclean */ = {
 			isa = PBXGroup;
 			children = (
-				427FDF1F194621B30066127B /* ConnectView */,
-				424E726619462EBC003393DE /* DeviceSelectionView */,
-				42D719B719464D5F001AE608 /* VLNDeviceManager.swift */,
+				42D18D37194B417D008BFFAD /* Model */,
+				42D18D3A194B417D008BFFAD /* ViewControllers */,
+				42D18D3B194B417D008BFFAD /* Views */,
 				42B9599E19450052005E11F1 /* AppDelegate.swift */,
 				42AD070E19461AD900CE37D4 /* MainWindow.swift */,
 				42B959A319450052005E11F1 /* Images.xcassets */,
@@ -153,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				42B959B219450052005E11F1 /* SpringcleanTests.swift */,
+				42D18D4B194B46FB008BFFAD /* VLNDeviceTests.swift */,
 				42B959B019450052005E11F1 /* Supporting Files */,
 			);
 			path = SpringcleanTests;
@@ -164,6 +154,58 @@
 				42B959B119450052005E11F1 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42D18D37194B417D008BFFAD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				42D18D38194B417D008BFFAD /* VLNDevice.swift */,
+				42D18D39194B417D008BFFAD /* VLNDeviceManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		42D18D3A194B417D008BFFAD /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		42D18D3B194B417D008BFFAD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				42D18D3C194B417D008BFFAD /* ConnectView */,
+				42D18D3F194B417D008BFFAD /* DeviceSelectionView */,
+				42D18D42194B417D008BFFAD /* Springboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		42D18D3C194B417D008BFFAD /* ConnectView */ = {
+			isa = PBXGroup;
+			children = (
+				42D18D3D194B417D008BFFAD /* VLNConnectView.swift */,
+				42D18D3E194B417D008BFFAD /* VLNConnectView.xib */,
+			);
+			path = ConnectView;
+			sourceTree = "<group>";
+		};
+		42D18D3F194B417D008BFFAD /* DeviceSelectionView */ = {
+			isa = PBXGroup;
+			children = (
+				42D18D40194B417D008BFFAD /* VLNDeviceSelectionView.swift */,
+				42D18D41194B417D008BFFAD /* VLNDeviceSelectionView.xib */,
+			);
+			path = DeviceSelectionView;
+			sourceTree = "<group>";
+		};
+		42D18D42194B417D008BFFAD /* Springboard */ = {
+			isa = PBXGroup;
+			children = (
+				42D18D43194B417D008BFFAD /* VLNSpringboard.swift */,
+			);
+			path = Springboard;
 			sourceTree = "<group>";
 		};
 		42D719B619464D30001AE608 /* Frameworks */ = {
@@ -256,10 +298,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				424E726A19462EBC003393DE /* VLNDeviceSelectionView.xib in Resources */,
+				42D18D49194B417D008BFFAD /* VLNDeviceSelectionView.xib in Resources */,
 				42B959A419450052005E11F1 /* Images.xcassets in Resources */,
 				42B959A719450052005E11F1 /* MainMenu.xib in Resources */,
-				427FDF21194621B30066127B /* VLNConnectView.xib in Resources */,
+				42D18D47194B417D008BFFAD /* VLNConnectView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,13 +319,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D18D48194B417D008BFFAD /* VLNDeviceSelectionView.swift in Sources */,
 				42AD070F19461AD900CE37D4 /* MainWindow.swift in Sources */,
 				42B9599F19450052005E11F1 /* AppDelegate.swift in Sources */,
-				424E726919462EBC003393DE /* VLNDeviceSelectionView.swift in Sources */,
+				42D18D44194B417D008BFFAD /* VLNDevice.swift in Sources */,
 				42B9599D19450052005E11F1 /* main.swift in Sources */,
-				427FDF23194621C20066127B /* VLNConnectView.swift in Sources */,
+				42D18D45194B417D008BFFAD /* VLNDeviceManager.swift in Sources */,
+				42D18D46194B417D008BFFAD /* VLNConnectView.swift in Sources */,
+				42D18D4A194B417D008BFFAD /* VLNSpringboard.swift in Sources */,
 				42B959A219450052005E11F1 /* Springclean.xcdatamodeld in Sources */,
-				42D719B819464D5F001AE608 /* VLNDeviceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +335,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42D18D4C194B46FB008BFFAD /* VLNDeviceTests.swift in Sources */,
 				42B959B319450052005E11F1 /* SpringcleanTests.swift in Sources */,
+				42D18D4D194B473E008BFFAD /* VLNDevice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

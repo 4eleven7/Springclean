@@ -9,168 +9,68 @@
 import Cocoa
 import CocoaMobileDevice
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-                            
-	@IBOutlet var window: NSWindow;
-	@IBOutlet var _connectView: VLNConnectView;
-	@IBOutlet var _deviceSelectionView: VLNDeviceSelectionView;
+class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
+{
+	@IBOutlet var window: MainWindow;
 	
 	var deviceManager: VLNDeviceManager!;
 	
-	var devices: NSMutableArray!
-	{
-		didSet
-		{
-			deviceListWasUpdated();
-		}
-	}
-	
 	init()
 	{
-		self.devices = NSMutableArray();
 		self.deviceManager = VLNDeviceManager();
 		
 		super.init();
 	}
 	
-    func applicationDidFinishLaunching(aNotification: NSNotification?)
+	deinit
 	{
-		showConnectToDeviceView(true);
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: VLNDeviceManagerDeviceListChangedNotification, object: nil);
+	}
+	
+	func applicationDidFinishLaunching(aNotification: NSNotification?)
+	{
+		self.window.showConnectToDeviceView();
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: CMDeviceMangerDeviceAddedNotification, object: nil);
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: CMDeviceMangerDeviceRemovedNotification, object: nil);
-		
-		CMDeviceManger.sharedManager().subscribe(nil);
-    }
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceListChangedNotification:", name: VLNDeviceManagerDeviceListChangedNotification, object: nil);
+	}
 	
 	func applicationWillTerminate(aNotification: NSNotification?)
 	{
 		// Insert code here to tear down your application
 	}
 	
-// MARK: Device Not Connected
-	var connectView: VLNConnectView
+	func deviceListChangedNotification(notification: NSNotification)
 	{
-		get
+		if (self.deviceManager.devices.count < 1)
 		{
-			if (!self._connectView)
+			self.window.showConnectToDeviceView();
+		}
+		else
+		{
+			if (self.deviceManager.devices.count >= 2 && !self.deviceManager.selectedDevice)
 			{
-				var nib = NSNib(nibNamed: "VLNConnectView", bundle: nil);
-				nib.instantiateWithOwner(self, topLevelObjects: nil);
-				self.connectView.translatesAutoresizingMaskIntoConstraints = false;
-			}
-			
-			return self._connectView;
-		}
-	}
-	
-	func showConnectToDeviceView(show:Bool)
-	{
-		if (self.connectView.superview != self.window.contentView as NSView)
-		{
-			self.window.contentView.addSubview(self.connectView);
-			
-			var views: Dictionary<String, NSView> = ["connectView": self.connectView];
-			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[connectView]|", options: nil, metrics: nil, views: views));
-			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[connectView]|", options: nil, metrics: nil, views: views));
-		}
-		
-		self.connectView.updateConstraints();
-		self.connectView.hidden = !show;
-	}
-	
-// MARK: Multiple Devices Connected
-	var deviceSelectionView: VLNDeviceSelectionView
-	{
-		get
-		{
-			if (!self._deviceSelectionView)
-			{
-				var nib = NSNib(nibNamed: "VLNDeviceSelectionView", bundle: nil);
-				nib.instantiateWithOwner(self, topLevelObjects: nil);
-				self.deviceSelectionView.translatesAutoresizingMaskIntoConstraints = false;
-			}
-			
-			return self._deviceSelectionView;
-		}
-	}
-	
-	func showDeviceSelectionView(show:Bool)
-	{
-		if (self.deviceSelectionView.superview != self.window.contentView as NSView)
-		{
-			self.window.contentView.addSubview(self.deviceSelectionView);
-			
-			var views: Dictionary<String, NSView> = ["deviceSelectionView": self.deviceSelectionView];
-			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
-			self.window.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
-		}
-		
-		self.deviceSelectionView.updateConstraints();
-		self.deviceSelectionView.hidden = !show;
-		
-	}
-	
-// MARK: Device list updated
-	func deviceListWasUpdated()
-	{
-		reloadDeviceList(
-		{
-			if (self.devices.count < 1)
-			{
-				self.showConnectToDeviceView(true);
+				self.window.showDeviceSelectionView(delegate: self);
 			}
 			else
 			{
-				self.showDeviceSelectionView((self.devices.count >= 2));
-				self.showConnectToDeviceView(false);
+				self.window.showSpringboard();
 			}
-		});
+		}
 	}
 	
-	func deviceAddedNotification(notification: NSNotification)
+// MARK: VLNDeviceSelectionDelegate
+	
+	func deviceSelectionView(view: VLNDeviceSelectionView!, selectedIndex: Int)
 	{
-		deviceListWasUpdated();
+		self.deviceManager.selectedDeviceIndex = selectedIndex;
+		self.window.showSpringboard();
 	}
 	
-	func deviceRemovedNotification(notification: NSNotification)
-	{
-		deviceListWasUpdated();
-	}
 	
-	func reloadDeviceList(completion: (() -> Void))
-	{
-		dispatch_async(dispatch_get_main_queue(),
-		{
-			self.devices?.removeAllObjects();
-			let devices: NSArray = CMDeviceManger.sharedManager().devices();
-			for device:CMDevice! in devices
-			{
-				if (!device.deviceName)
-				{
-					var error: NSError?;
-					var connecting: Bool = device.connect(&error);
-					var connected: Bool = device.connected;
-					if (connected)
-					{
-						device.loadDeviceName();
-						device.disconnect();
-					}
-					
-					if (error) {
-						NSLog("error %@", error!);
-					}
-				}
-				
-				var deviceObj: VLNDevice = VLNDevice();
-				deviceObj.name = device.deviceName;
-				self.deviceManager.devices.addObject(deviceObj);
-				self.devices.addObject(device);
-			}
-			
-			completion();
-		});
-	}
+	
+	
+	
+	
 	
 // MARK: CoreData
 	
@@ -332,4 +232,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
-
