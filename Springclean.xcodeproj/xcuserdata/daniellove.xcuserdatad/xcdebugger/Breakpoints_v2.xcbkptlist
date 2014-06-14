@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Springclean/AppDelegate.swift"
-            timestampString = "424038416.368945"
+            timestampString = "424433880.615645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "deviceListWasUpdated()"
-            landmarkType = "5">
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

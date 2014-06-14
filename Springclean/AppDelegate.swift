@@ -12,14 +12,20 @@ import CocoaMobileDevice
 class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 {
 	@IBOutlet var window: MainWindow;
+	@IBOutlet var developerMenu: NSMenuItem;
 	
 	var deviceManager: VLNDeviceManager!;
+	var deviceConnector: VLNMobileDeviceConnector!;
 	
+	var mobileDeviceSimulator: VLNMobileDeviceSimulator!;
+
 	init()
 	{
 		self.deviceManager = VLNDeviceManager();
 		
 		super.init();
+		
+		enableDeveloperMenu(false);
 	}
 	
 	deinit
@@ -62,9 +68,70 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	
 	func deviceSelectionView(view: VLNDeviceSelectionView!, selectedIndex: Int)
 	{
-		self.deviceManager.selectedDeviceIndex = selectedIndex;
+		self.deviceManager.selectedDevice = self.deviceManager.deviceAtIndex(selectedIndex);
 		self.window.showSpringboard();
 	}
+	
+// MARK: Developer actions
+	
+	func enableDeveloperMenu(debug:Bool)
+	{
+		self.mobileDeviceSimulator = VLNMobileDeviceSimulator();
+		
+		if (debug == false) {
+			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: CMDeviceManger.sharedManager());
+		} else {
+			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
+		}
+		
+		self.deviceConnector.reloadDeviceList();
+	}
+	
+// MARK: IBActions
+	
+	@IBAction func addSimulatediPhone(sender: AnyObject)
+	{
+		enableDeveloperMenu(true);
+		
+		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5S_n53ap);
+	}
+	
+	@IBAction func addSimulatediPad(sender: AnyObject)
+	{
+		enableDeveloperMenu(true);
+		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPadAir_j72ap);
+	}
+	
+	@IBAction func deleteSimulatedDevice(sender: AnyObject)
+	{
+		self.mobileDeviceSimulator.removeSimulatedDevice();
+		
+		if (self.mobileDeviceSimulator.devices().count == 0) {
+			enableDeveloperMenu(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

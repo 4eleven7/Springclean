@@ -106,10 +106,11 @@ class MainWindow: NSWindow
 	{
 		self.hideDeviceSelectionView();
 		self.hideConnectToDeviceView();
-		
+		/*
 		self.springboardHeightConstraint.constant = 600;
 		self.springboardWidthConstraint.constant = 600;
 		
 		self.updateConstraintsIfNeeded();
+		*/
 	}
 }

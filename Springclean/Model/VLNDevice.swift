@@ -8,20 +8,32 @@
 
 import Cocoa
 
-struct VLNDevice
+class VLNDevice: Equatable
 {
-	let name: String!;
-	let type: VLNDeviceType!;
-	let classification: VLNDeviceClass!;
-	let size: VLNDeviceSize!;
+	let uuid: String!;
+	var name: String?;
+	var type: VLNDeviceType = VLNDeviceType.unknown;
+	var classification: VLNDeviceClass = VLNDeviceType.unknown.deviceClass();
+	var size: VLNDeviceSize = VLNDeviceSize();
 	
-	init(name: String, type: VLNDeviceType = VLNDeviceType.unknown)
+	init(uuid: String)
 	{
+		self.uuid = uuid;
+	}
+	
+	convenience init(uuid: String, name: String, type: VLNDeviceType = VLNDeviceType.unknown)
+	{
+		self.init(uuid: uuid);
+		
 		self.name = name;
 		self.type = type;
-		self.classification = type.deviceClass();
-		self.size = VLNDeviceSize();
+		self.classification = self.type.deviceClass();
 	}
+}
+
+func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
+{
+	return (lhs.name == rhs.name);
 }
 
 struct VLNDeviceSize
@@ -186,4 +198,9 @@ enum VLNDeviceType: String
 				return "Unknown";
 		}
 	}
+}
+
+func == (lhs: VLNDeviceType, rhs: VLNDeviceType) -> Bool
+{
+	return (lhs.toRaw() == rhs.toRaw());
 }
