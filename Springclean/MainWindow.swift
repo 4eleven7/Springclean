@@ -102,14 +102,22 @@ class MainWindow: NSWindow
 	
 // MARK: Springboard
 	
-	func showSpringboard()
+	func showSpringboard(device: VLNDevice)
 	{
 		self.hideDeviceSelectionView();
 		self.hideConnectToDeviceView();
-		/*
-		self.springboardHeightConstraint.constant = 600;
-		self.springboardWidthConstraint.constant = 600;
-		*/
-		self.updateConstraintsIfNeeded();
+		
+		self.animateWindowToSize(device.size);
+	}
+	
+	func animateWindowToSize(size: VLNDeviceSize)
+	{
+		NSAnimationContext.beginGrouping();
+		NSAnimationContext.currentContext().duration = 0.1;
+		
+		self.springboardHeightConstraint.animator().constant = size.height;
+		self.springboardWidthConstraint.animator().constant = size.width;
+		
+		NSAnimationContext.endGrouping();
 	}
 }

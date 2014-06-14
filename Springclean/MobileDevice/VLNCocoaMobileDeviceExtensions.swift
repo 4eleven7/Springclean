@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import CocoaMobileDevice
+import iMobileDevice
 
-extension CMDeviceManger: VLNMobileDeviceManagerProtocol { }
-extension CMDevice: VLNMobileDeviceProtocol { }
+//extension CMDeviceManger: VLNMobileDeviceManagerProtocol { }
+//extension CMDevice: VLNMobileDeviceProtocol { }

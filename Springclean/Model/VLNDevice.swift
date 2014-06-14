@@ -38,7 +38,7 @@ func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
 
 struct VLNDeviceSize
 {
-	var width = 0.0, height = 0.0;
+	var width = 320.0, height = 560.0;
 }
 
 enum VLNDeviceClass: Int

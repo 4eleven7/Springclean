@@ -166,7 +166,7 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	func unsubscribe(error: NSErrorPointer) -> Bool;
 }
 
-@class_protocol protocol VLNMobileDeviceProtocol
+@objc @class_protocol protocol VLNMobileDeviceProtocol
 {
 	var UDID: String! { get };
 	

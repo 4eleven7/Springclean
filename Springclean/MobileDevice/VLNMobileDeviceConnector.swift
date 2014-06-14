@@ -58,7 +58,13 @@ class VLNMobileDeviceConnector: NSObject
 
 			for rawDevice : AnyObject in self.deviceConnector.devices()
 			{
-				let newDevice = rawDevice as VLNMobileDevice;
+				//let newDevice: VLNMobileDevice = rawDevice as VLNMobileDevice;
+				var newDevice: VLNMobileDeviceProtocol;
+				if (rawDevice.isKindOfClass(VLNMobileDevice)) {
+					newDevice = rawDevice as VLNMobileDevice;
+				} else {
+					newDevice = rawDevice as VLNMobileDeviceProtocol;
+				}
 				
 				// Already exists?
 				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
@@ -83,7 +89,9 @@ class VLNMobileDeviceConnector: NSObject
 					}
 				}
 				
-				NSLog("%@", newDevice.deviceName!);
+				if (newDevice.deviceName) {
+					NSLog("%@", newDevice.deviceName!);
+				}
 				
 				if (!newDevice.productType)
 				{
@@ -99,12 +107,27 @@ class VLNMobileDeviceConnector: NSObject
 					}
 				}
 				
+				var error: NSError?;
+				if (newDevice.connect(&error))
+				{
+					var screenHeight = newDevice.readDomain("com.apple.mobile.iTunes", key: "ScreenHeight", error: nil);
+					newDevice.disconnect();
+				}
+				
+				if (error) {
+					NSLog("error %@", error!);
+				}
+				
+				var width: Double = 320;
+				var height: Double = 560;
+				
 				var deviceType:VLNDeviceType! = VLNDeviceType.unknown;
 				if (newDevice.productType) {
 					deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
 				}
 				
-				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.deviceName, type: deviceType);
+				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.deviceName!, type: deviceType);
+				device.size = VLNDeviceSize(width: width, height: height);
 				newDevices.addObject(device);
 			}
 

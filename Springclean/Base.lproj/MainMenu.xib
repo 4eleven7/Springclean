@@ -127,7 +127,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="xwL-qc-C7h" userLabel="SpringboardContainer">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="560"/>
                         <subviews>
-                            <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="AbZ-nI-psJ" userLabel="Springboard">
+                            <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="AbZ-nI-psJ" userLabel="Springboard" customClass="VLNSpringboard" customModule="Springclean" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="J2u-k9-Tmq"/>
@@ -136,6 +136,9 @@
                             </customView>
                             <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="J69-qb-vzB" userLabel="Sidebar">
                                 <rect key="frame" x="320" y="0.0" width="160" height="560"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="Q89-ME-RZK"/>
+                                </constraints>
                             </visualEffectView>
                         </subviews>
                         <constraints>

@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import CocoaMobileDevice
+import iMobileDevice
 
 class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 {
@@ -59,7 +59,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 			}
 			else
 			{
-				self.window.showSpringboard();
+				var device: VLNDevice? = self.deviceManager.selectedDevice;
+				if (!device) {
+					device = self.deviceManager.deviceAtIndex(0);
+				}
+				
+				self.window.showSpringboard(device!);
 			}
 		}
 	}
@@ -69,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	func deviceSelectionView(view: VLNDeviceSelectionView!, selectedIndex: Int)
 	{
 		self.deviceManager.selectedDevice = self.deviceManager.deviceAtIndex(selectedIndex);
-		self.window.showSpringboard();
+		self.window.showSpringboard(self.deviceManager.selectedDevice!);
 	}
 	
 	func deviceSelectionViewNumberOfDevices(view:VLNDeviceSelectionView!) -> Int
@@ -95,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 		}
 		
 		if (debug == false) {
-			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: CMDeviceManger.sharedManager());
+			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: VLNDeviceManager.sharedManager());
 		} else {
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
 		}
