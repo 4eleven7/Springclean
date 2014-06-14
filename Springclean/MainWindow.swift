@@ -109,8 +109,7 @@ class MainWindow: NSWindow
 		/*
 		self.springboardHeightConstraint.constant = 600;
 		self.springboardWidthConstraint.constant = 600;
-		
-		self.updateConstraintsIfNeeded();
 		*/
+		self.updateConstraintsIfNeeded();
 	}
 }

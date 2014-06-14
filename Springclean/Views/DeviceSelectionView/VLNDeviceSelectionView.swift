@@ -10,12 +10,24 @@ import Cocoa
 
 class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 {
-	var delegate: VLNDeviceSelectionDelegate?;
+	@IBOutlet var tableView: NSTableView!;
+	
+	var delegate: VLNDeviceSelectionDelegate?
+	{
+		didSet
+		{
+			self.tableView.reloadData();
+		}
+	}
 	
 // MARK: NSTableViewDataSource
 	func numberOfRowsInTableView(tableView: NSTableView!) -> Int
 	{
-		return 2;
+		var numberOfDevices = 0
+		if (self.delegate) {
+			numberOfDevices = self.delegate!.deviceSelectionViewNumberOfDevices(self);
+		}
+		return numberOfDevices;
 	}
 	
 // MARK: NSTableViewDelegate
@@ -36,4 +48,5 @@ class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 @class_protocol protocol VLNDeviceSelectionDelegate
 {
 	func deviceSelectionView(view:VLNDeviceSelectionView!, selectedIndex:Int);
+	func deviceSelectionViewNumberOfDevices(view:VLNDeviceSelectionView!) -> Int;
 }

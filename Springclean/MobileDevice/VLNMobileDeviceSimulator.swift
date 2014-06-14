@@ -47,8 +47,6 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 		
 		self.simulatedDevices.append(device);
 		
-		NSNotificationCenter.defaultCenter().postNotificationName(CMDeviceMangerDeviceAddedNotification, object: nil, userInfo: nil);
-		
 		return device;
 	}
 	
@@ -57,7 +55,15 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 		if self.simulatedDevices.count > 0 {
 			self.simulatedDevices.removeLast();
 		}
-		
+	}
+	
+	func simulateDeviceAddedNotification()
+	{
+		NSNotificationCenter.defaultCenter().postNotificationName(CMDeviceMangerDeviceAddedNotification, object: nil, userInfo: nil);
+	}
+	
+	func simulateDeviceRemovedNotification()
+	{
 		NSNotificationCenter.defaultCenter().postNotificationName(CMDeviceMangerDeviceRemovedNotification, object: nil, userInfo: nil);
 	}
 	

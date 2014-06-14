@@ -72,11 +72,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 		self.window.showSpringboard();
 	}
 	
+	func deviceSelectionViewNumberOfDevices(view:VLNDeviceSelectionView!) -> Int
+	{
+		return self.deviceManager.devices.count;
+	}
+	
 // MARK: Developer actions
 	
 	func enableDeveloperMenu(debug:Bool)
 	{
-		self.mobileDeviceSimulator = VLNMobileDeviceSimulator();
+		if (self.mobileDeviceSimulator == nil) {
+			self.mobileDeviceSimulator = VLNMobileDeviceSimulator();
+		}
+		
+		if (self.deviceConnector != nil)
+		{
+			// Do nothing, no changes
+			var isCurrentlyDebug: Bool = (self.deviceConnector.deviceConnector === self.mobileDeviceSimulator);
+			if (debug == isCurrentlyDebug) {
+				return
+			}
+		}
 		
 		if (debug == false) {
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: CMDeviceManger.sharedManager());
@@ -84,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
 		}
 		
-		self.deviceConnector.reloadDeviceList();
+		self.deviceConnector.asyncReloadDeviceList();
 	}
 	
 // MARK: IBActions
@@ -94,17 +110,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 		enableDeveloperMenu(true);
 		
 		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5S_n53ap);
+		self.mobileDeviceSimulator.simulateDeviceAddedNotification();
 	}
 	
 	@IBAction func addSimulatediPad(sender: AnyObject)
 	{
 		enableDeveloperMenu(true);
 		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPadAir_j72ap);
+		self.mobileDeviceSimulator.simulateDeviceAddedNotification();
 	}
 	
 	@IBAction func deleteSimulatedDevice(sender: AnyObject)
 	{
 		self.mobileDeviceSimulator.removeSimulatedDevice();
+		self.mobileDeviceSimulator.simulateDeviceRemovedNotification();
 		
 		if (self.mobileDeviceSimulator.devices().count == 0) {
 			enableDeveloperMenu(false);

@@ -33,7 +33,7 @@ class VLNDevice: Equatable
 
 func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
 {
-	return (lhs.name == rhs.name);
+	return (lhs.uuid == rhs.uuid);
 }
 
 struct VLNDeviceSize

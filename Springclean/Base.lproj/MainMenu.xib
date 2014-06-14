@@ -124,7 +124,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="560"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xwL-qc-C7h" userLabel="SpringboardContainer">
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="xwL-qc-C7h" userLabel="SpringboardContainer">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="560"/>
                         <subviews>
                             <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="AbZ-nI-psJ" userLabel="Springboard">

@@ -33,7 +33,6 @@
 		42D18D4D194B473E008BFFAD /* VLNDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D38194B417D008BFFAD /* VLNDevice.swift */; };
 		42D18D50194B4EBB008BFFAD /* VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D4F194B4EBB008BFFAD /* VLNDeviceManager.swift */; };
 		42D18D52194B4F3C008BFFAD /* VLNDeviceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D51194B4F3C008BFFAD /* VLNDeviceManagerTests.swift */; };
-		42D18D54194B5190008BFFAD /* _VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D53194B5190008BFFAD /* _VLNDeviceManager.swift */; };
 		42D18D55194B585D008BFFAD /* VLNDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D18D4F194B4EBB008BFFAD /* VLNDeviceManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,7 +87,6 @@
 		42D18D4B194B46FB008BFFAD /* VLNDeviceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceTests.swift; sourceTree = "<group>"; };
 		42D18D4F194B4EBB008BFFAD /* VLNDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceManager.swift; sourceTree = "<group>"; };
 		42D18D51194B4F3C008BFFAD /* VLNDeviceManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNDeviceManagerTests.swift; sourceTree = "<group>"; };
-		42D18D53194B5190008BFFAD /* _VLNDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _VLNDeviceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +190,6 @@
 			children = (
 				42D18D38194B417D008BFFAD /* VLNDevice.swift */,
 				42D18D4F194B4EBB008BFFAD /* VLNDeviceManager.swift */,
-				42D18D53194B5190008BFFAD /* _VLNDeviceManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -357,7 +354,6 @@
 				42D18D44194B417D008BFFAD /* VLNDevice.swift in Sources */,
 				42B9599D19450052005E11F1 /* main.swift in Sources */,
 				42D18D46194B417D008BFFAD /* VLNConnectView.swift in Sources */,
-				42D18D54194B5190008BFFAD /* _VLNDeviceManager.swift in Sources */,
 				42D18D4A194B417D008BFFAD /* VLNSpringboard.swift in Sources */,
 				42ADB6DB194B84F900FEB686 /* VLNMobileDeviceConnector.swift in Sources */,
 				42ADB6DD194B91DB00FEB686 /* VLNMobileDeviceSimulator.swift in Sources */,

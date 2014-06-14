@@ -32,78 +32,90 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func asyncReloadDeviceList()
 	{
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
+		self.reloadDeviceList(completionHandler:
 		{
-			self.reloadDeviceList();
-			
-			dispatch_async(dispatch_get_main_queue(),{
-				self.postDeviceListDidChange();
-			});
+			result in
+				if (result)
+				{
+					dispatch_async(dispatch_get_main_queue(),{
+						self.postDeviceListDidChange();
+					});
+				}
 		});
 	}
-	
-	func reloadDeviceList()
+	/**
+	* Returns true if changes, false if no changes
+	*/
+	func reloadDeviceList(completionHandler handler: ((Bool) -> Void)?)
 	{
-		// Any device still left, will be removed
-		var oldDevices: NSMutableArray = NSMutableArray(array:self.deviceManager.devices);
-		
-		// Devices added here, or removed from oldDevices, will be added/kept
-		var newDevices: NSMutableArray = NSMutableArray();
-
-		for rawDevice : AnyObject in self.deviceConnector.devices()
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
 		{
-			let newDevice = rawDevice as VLNMobileDevice;
+			// Any device still left, will be removed
+			var oldDevices: NSMutableArray = NSMutableArray(array:self.deviceManager.devices);
 			
-			// Already exists?
-			var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
-			if (currentDevice != nil)
-			{
-				oldDevices.removeObject(currentDevice);
-				continue;
-			}
-			
-			// Update properties
-			if (!newDevice.deviceName)
-			{
-				var error: NSError?;
-				if (newDevice.connect(&error))
-				{
-					newDevice.loadDeviceName();
-					newDevice.disconnect();
-				}
-				
-				if (error) {
-					NSLog("error %@", error!);
-				}
-			}
-			
-			NSLog("%@", newDevice.deviceName!);
-			
-			if (!newDevice.productType)
-			{
-				var error: NSError?;
-				if (newDevice.connect(&error))
-				{
-					newDevice.loadProductType();
-					newDevice.disconnect();
-				}
-				
-				if (error) {
-					NSLog("error %@", error!);
-				}
-			}
-			
-			var deviceType:VLNDeviceType! = VLNDeviceType.unknown;
-			if (newDevice.productType) {
-				deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
-			}
-			
-			var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.deviceName, type: deviceType);
-			newDevices.addObject(device);
-		}
+			// Devices added here, or removed from oldDevices, will be added/kept
+			var newDevices: NSMutableArray = NSMutableArray();
 
-		self.deviceManager.removeDevices(oldDevices);
-		self.deviceManager.addDevices(newDevices);
+			for rawDevice : AnyObject in self.deviceConnector.devices()
+			{
+				let newDevice = rawDevice as VLNMobileDevice;
+				
+				// Already exists?
+				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
+				if (currentDevice != nil)
+				{
+					oldDevices.removeObject(currentDevice);
+					continue;
+				}
+				
+				// Update properties
+				if (!newDevice.deviceName)
+				{
+					var error: NSError?;
+					if (newDevice.connect(&error))
+					{
+						newDevice.loadDeviceName();
+						newDevice.disconnect();
+					}
+					
+					if (error) {
+						NSLog("error %@", error!);
+					}
+				}
+				
+				NSLog("%@", newDevice.deviceName!);
+				
+				if (!newDevice.productType)
+				{
+					var error: NSError?;
+					if (newDevice.connect(&error))
+					{
+						newDevice.loadProductType();
+						newDevice.disconnect();
+					}
+					
+					if (error) {
+						NSLog("error %@", error!);
+					}
+				}
+				
+				var deviceType:VLNDeviceType! = VLNDeviceType.unknown;
+				if (newDevice.productType) {
+					deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
+				}
+				
+				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.deviceName, type: deviceType);
+				newDevices.addObject(device);
+			}
+
+			self.deviceManager.removeDevices(oldDevices);
+			self.deviceManager.addDevices(newDevices);
+			
+			var result: Bool = (newDevices.count != 0 || oldDevices.count != 0);
+			if (handler) {
+				handler!(result);
+			}
+		});
 	}
 	
 // MARK: Notifications
