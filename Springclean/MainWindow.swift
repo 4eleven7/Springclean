@@ -11,7 +11,7 @@ import Cocoa
 class MainWindow: NSWindow
 {
 	@IBOutlet var sidebar: NSVisualEffectView;
-	@IBOutlet var springboard: NSView;
+	@IBOutlet var springboard: VLNSpringboard;
 	
 	@IBOutlet var springboardWidthConstraint: NSLayoutConstraint;
 	@IBOutlet var springboardHeightConstraint: NSLayoutConstraint;
@@ -115,6 +115,8 @@ class MainWindow: NSWindow
 		var deviceSize:VLNDeviceSize = device.size.scaled(canRotate:canRotate)
 		
 		self.animateWindowToSize(size:deviceSize);
+		
+		self.springboard.prepareSpringboardViewforDevice(device);
 	}
 	
 	func animateWindowToSize(size: VLNDeviceSize = VLNDeviceSize(width: 400, height: 600, scaleFactor: 1.0))

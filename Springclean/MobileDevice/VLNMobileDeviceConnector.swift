@@ -82,6 +82,7 @@ class VLNMobileDeviceConnector: NSObject
 				
 				var device: VLNDevice = VLNDevice(uuid: newDevice.udid, name: newDevice.name!, type: deviceType);
 				device.size = VLNDeviceSize(width: newDevice.screenWidth, height: newDevice.screenHeight, scaleFactor: newDevice.screenScaleFactor);
+				device.wallpaper = newDevice.wallpaper;
 				newDevices.addObject(device);
 			}
 
@@ -128,7 +129,7 @@ class VLNMobileDeviceConnector: NSObject
 		NSNotificationCenter.defaultCenter().postNotificationName(VLNDeviceManagerDeviceListChangedNotification, object: nil, userInfo: nil);
 	}
 	
-// MARK: CMDeviceManger Notifications
+// MARK: iMDVLNDeviceManager Notifications
 	
 	func deviceAddedNotification(notification: NSNotification)
 	{

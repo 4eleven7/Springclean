@@ -103,6 +103,8 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	
 	var screenScaleFactor: CGFloat = 1.0;
 	
+	var wallpaper: NSImage!;
+	
 	init(UDID udid: String!)
 	{
 		self.udid = udid;
@@ -131,6 +133,7 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	var screenHeight: CGFloat { get };
 	var screenWidth: CGFloat { get };
 	var screenScaleFactor: CGFloat { get };
+	var wallpaper: NSImage! { get };
 	
 	init(UDID udid: String!);
 }

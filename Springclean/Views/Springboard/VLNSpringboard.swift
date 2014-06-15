@@ -12,10 +12,22 @@ class VLNSpringboard: NSView
 {
 	var delegate: VLNSpringboardDelegate?;
 	
+	var device: VLNDevice?;
+	
 	override func drawRect(dirtyRect: NSRect)
 	{
 		NSColor.blackColor().setFill();
 		NSRectFill(dirtyRect);
+		
+		if (device?.wallpaper!) {
+			device?.wallpaper!.drawInRect(dirtyRect);
+		}
+	}
+	
+	func prepareSpringboardViewforDevice(device: VLNDevice)
+	{
+		self.device = device;
+		self.needsDisplay = true;
 	}
 }
 

@@ -15,6 +15,7 @@ class VLNDevice: Equatable
 	var type: VLNDeviceType = VLNDeviceType.unknown;
 	var classification: VLNDeviceClass = VLNDeviceType.unknown.deviceClass();
 	var size: VLNDeviceSize = VLNDeviceSize();
+	var wallpaper: NSImage?;
 	
 	init(uuid: String)
 	{
