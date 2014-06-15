@@ -67,67 +67,21 @@ class VLNMobileDeviceConnector: NSObject
 				}
 				
 				// Already exists?
-				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
+				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.udid!);
 				if (currentDevice != nil)
 				{
 					oldDevices.removeObject(currentDevice);
 					continue;
 				}
 				
-				// Update properties
-				if (!newDevice.deviceName)
-				{
-					var error: NSError?;
-					if (newDevice.connect(&error))
-					{
-						newDevice.loadDeviceName();
-						newDevice.disconnect();
-					}
-					
-					if (error) {
-						NSLog("error %@", error!);
-					}
-				}
-				
-				if (newDevice.deviceName) {
-					NSLog("%@", newDevice.deviceName!);
-				}
-				
-				if (!newDevice.productType)
-				{
-					var error: NSError?;
-					if (newDevice.connect(&error))
-					{
-						newDevice.loadProductType();
-						newDevice.disconnect();
-					}
-					
-					if (error) {
-						NSLog("error %@", error!);
-					}
-				}
-				
-				var error: NSError?;
-				if (newDevice.connect(&error))
-				{
-					var screenHeight = newDevice.readDomain("com.apple.mobile.iTunes", key: "ScreenHeight", error: nil);
-					newDevice.disconnect();
-				}
-				
-				if (error) {
-					NSLog("error %@", error!);
-				}
-				
-				var width: Double = 320;
-				var height: Double = 560;
-				
+				// Create new device
 				var deviceType:VLNDeviceType! = VLNDeviceType.unknown;
 				if (newDevice.productType) {
 					deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
 				}
 				
-				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.deviceName!, type: deviceType);
-				device.size = VLNDeviceSize(width: width, height: height);
+				var device: VLNDevice = VLNDevice(uuid: newDevice.udid, name: newDevice.name!, type: deviceType);
+				device.size = VLNDeviceSize(width: newDevice.screenWidth, height: newDevice.screenHeight, scaleFactor: newDevice.screenScaleFactor);
 				newDevices.addObject(device);
 			}
 
@@ -145,11 +99,11 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func subscribeForNotifications()
 	{
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: CMDeviceMangerDeviceAddedNotification, object: nil);
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: CMDeviceMangerDeviceRemovedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: iMDVLNDeviceAddedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: iMDVLNDeviceRemovedNotification, object: nil);
 		
 		var error: NSError?;
-		var subscribed: Bool = self.deviceConnector.subscribe(&error);
+		var subscribed: Bool = self.deviceConnector.subscribeForNotifications(&error);
 		
 		if (error) {
 			NSLog("Unable to subscribe (%i) %@", subscribed, error!);
@@ -158,11 +112,11 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func unsubscribeForNotifications()
 	{
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: CMDeviceMangerDeviceAddedNotification, object: nil);
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: CMDeviceMangerDeviceRemovedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceAddedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceRemovedNotification, object: nil);
 		
 		var error: NSError?;
-		var unsubscribed: Bool = self.deviceConnector.unsubscribe(&error);
+		var unsubscribed: Bool = self.deviceConnector.unsubscribeForNotifications(&error);
 		
 		if (error) {
 			NSLog("Unable to unsubscribe (%i) %@", unsubscribed, error!);

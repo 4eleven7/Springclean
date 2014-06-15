@@ -39,6 +39,25 @@ func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
 struct VLNDeviceSize
 {
 	var width = 320.0, height = 560.0;
+	var scaleFactor = 1.0;
+	
+	func scaled(canRotate:Bool = false) -> VLNDeviceSize
+	{
+		var scaledSize: VLNDeviceSize = VLNDeviceSize(width: self.width, height: self.height, scaleFactor: self.scaleFactor);
+		
+		if (canRotate && self.height < 2000) {
+			scaledSize.width = self.height;
+			scaledSize.height = self.width;
+		}
+		
+		if (scaledSize.width > 1000) {
+			scaledSize.scaleFactor *= 1.1;
+			scaledSize.width /= scaledSize.scaleFactor;
+			scaledSize.height /= scaledSize.scaleFactor;
+		}
+		
+		return scaledSize;
+	}
 }
 
 enum VLNDeviceClass: Int

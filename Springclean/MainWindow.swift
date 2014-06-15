@@ -68,6 +68,8 @@ class MainWindow: NSWindow
 		
 		self.connectView.updateConstraints();
 		
+		self.animateWindowToSize();
+		
 		self.hideDeviceSelectionView();
 	}
 	
@@ -92,6 +94,8 @@ class MainWindow: NSWindow
 		self.deviceSelectionView.delegate = delegate;
 		self.deviceSelectionView.updateConstraints();
 		
+		self.animateWindowToSize();
+		
 		self.hideConnectToDeviceView();
 	}
 	
@@ -107,16 +111,19 @@ class MainWindow: NSWindow
 		self.hideDeviceSelectionView();
 		self.hideConnectToDeviceView();
 		
-		self.animateWindowToSize(device.size);
+		var canRotate:Bool = device.classification == VLNDeviceClass.iPad;
+		var deviceSize:VLNDeviceSize = device.size.scaled(canRotate:canRotate)
+		
+		self.animateWindowToSize(size:deviceSize);
 	}
 	
-	func animateWindowToSize(size: VLNDeviceSize)
+	func animateWindowToSize(size: VLNDeviceSize = VLNDeviceSize(width: 400, height: 600, scaleFactor: 1.0))
 	{
 		NSAnimationContext.beginGrouping();
 		NSAnimationContext.currentContext().duration = 0.1;
 		
-		self.springboardHeightConstraint.animator().constant = size.height;
-		self.springboardWidthConstraint.animator().constant = size.width;
+		self.springboardHeightConstraint.animator().constant = size.height / size.scaleFactor;
+		self.springboardWidthConstraint.animator().constant = size.width / size.scaleFactor;
 		
 		NSAnimationContext.endGrouping();
 	}

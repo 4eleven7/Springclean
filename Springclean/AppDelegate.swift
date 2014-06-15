@@ -100,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 		}
 		
 		if (debug == false) {
-			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: VLNDeviceManager.sharedManager());
+			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: iMDVLNDeviceManager.sharedManager());
 		} else {
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
 		}

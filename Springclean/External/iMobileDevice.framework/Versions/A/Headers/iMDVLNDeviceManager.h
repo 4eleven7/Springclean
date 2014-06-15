@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class iMDVLNDevice;
+
 @interface iMDVLNDeviceManager : NSObject
 
 @property (nonatomic, readonly, getter=isSubscribed) BOOL subscribed;
@@ -19,5 +21,7 @@
 - (BOOL) unsubscribeForNotifications:(NSError **)error;
 
 - (NSArray *)devices;
+
+- (id) getDeviceProperty:(id)device forKey:(NSString *)key inDomain:(NSString *)domain error:(NSError **)error;
 
 @end

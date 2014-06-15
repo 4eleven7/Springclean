@@ -9,5 +9,5 @@
 import Cocoa
 import iMobileDevice
 
-//extension CMDeviceManger: VLNMobileDeviceManagerProtocol { }
-//extension CMDevice: VLNMobileDeviceProtocol { }
+extension iMDVLNDeviceManager: VLNMobileDeviceManagerProtocol { }
+extension iMDVLNDevice: VLNMobileDeviceProtocol { }

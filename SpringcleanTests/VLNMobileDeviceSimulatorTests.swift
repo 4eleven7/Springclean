@@ -23,27 +23,19 @@ class VLNMobileDeviceSimulatorTests: XCTestCase
 	{
 		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		XCTAssertEqual(mobile.UDID!, "666", "Mobile device UDID should be 666");
+		XCTAssertEqual(mobile.udid!, "666", "Mobile device UDID should be 666");
 	}
 	
 	func testCanSimulateDeviceName()
 	{
 		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		XCTAssertEqual(mobile.deviceName!, "", "Mobile device should not have a name");
-		
-		mobile.loadDeviceName();
-		
-		XCTAssertEqual(mobile.deviceName!, "Dan's iPhone", "Mobile device should have a name");
+		XCTAssertEqual(mobile.name!, "Dan's iPhone", "Mobile device should have a name");
 	}
 	
 	func testCanSimulateProductType()
 	{
 		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
-		
-		XCTAssertEqual(mobile.productType!, "", "Mobile device should not have a product type");
-		
-		mobile.loadProductType();
 		
 		XCTAssertEqual(mobile.productType!, "iPhone6,1", "Mobile device should have a product type");
 	}
