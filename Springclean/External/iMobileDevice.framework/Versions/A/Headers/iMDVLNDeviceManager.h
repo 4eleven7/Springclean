@@ -22,6 +22,12 @@
 
 - (NSArray *)devices;
 
+#pragma mark - Lockdownd
+
 - (id) getDeviceProperty:(id)device forKey:(NSString *)key inDomain:(NSString *)domain error:(NSError **)error;
+
+#pragma mark - SBServices
+
+- (NSImage *) getSpringboardWallpaperOnDevice:(iMDVLNDevice *)device error:(NSError **)error;
 
 @end

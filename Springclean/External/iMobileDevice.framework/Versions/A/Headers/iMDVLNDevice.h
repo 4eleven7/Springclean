@@ -14,6 +14,7 @@
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *productType;
 @property (nonatomic, readonly) NSColor *deviceColor;
+@property (nonatomic, readonly) NSImage *wallpaper;
 @property (nonatomic, readonly) CGFloat screenHeight;
 @property (nonatomic, readonly) CGFloat screenWidth;
 @property (nonatomic, readonly) CGFloat screenScaleFactor;
