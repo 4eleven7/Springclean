@@ -34,6 +34,11 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 	
 	var simulatedDevices: VLNMobileDevice[] = VLNMobileDevice[]();
 	
+	func deviceWithUiud(udid: String) -> AnyObject!
+	{
+		for (VLNMobileDevice in)
+	}
+	
 	func devices() -> AnyObject[]!
 	{
 		return self.simulatedDevices;
@@ -121,6 +126,8 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	
 	func devices() -> AnyObject[]!;
 	
+	func deviceWithUiud(udid: String) -> AnyObject!;
+
 	func getDeviceProperty(device: AnyObject!, forKey key: String!, inDomain domain: String!, error: NSErrorPointer) -> AnyObject!;
 }
 

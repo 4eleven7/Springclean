@@ -96,6 +96,17 @@ class VLNMobileDeviceConnector: NSObject
 		});
 	}
 	
+	func addDevice(udid: String) -> VLNDevice
+	{
+		let rawDevice = self.deviceConnector.deviceWithUiud(udid);
+		var newDevice: VLNMobileDeviceProtocol;
+		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
+			newDevice = rawDevice as VLNMobileDevice;
+		} else {
+			newDevice = rawDevice as VLNMobileDeviceProtocol;
+		}
+	}
+	
 // MARK: Notifications
 	
 	func subscribeForNotifications()
@@ -133,11 +144,25 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceAddedNotification(notification: NSNotification)
 	{
+		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID);
+		if (udid)
+		{
+			self.addDevice(udid);
+			return
+		}
+		
 		self.asyncReloadDeviceList();
 	}
 	
 	func deviceRemovedNotification(notification: NSNotification)
 	{
+		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID);
+		if (udid)
+		{
+			self.removeDevice(udid);
+			return
+		}
+		
 		self.asyncReloadDeviceList();
 	}
 }
