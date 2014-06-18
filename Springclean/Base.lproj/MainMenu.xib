@@ -117,22 +117,39 @@
         <window title="Springclean" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="MainWindow" customModule="Springclean" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="397" y="229" width="480" height="560"/>
+            <rect key="contentRect" x="397" y="139" width="480" height="560"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <value key="minSize" type="size" width="480" height="560"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="560"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="xwL-qc-C7h" userLabel="SpringboardContainer">
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="xwL-qc-C7h" userLabel="SpringboardSidebarContainer">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="560"/>
                         <subviews>
-                            <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="AbZ-nI-psJ" userLabel="Springboard" customClass="VLNSpringboard" customModule="Springclean" customModuleProvider="target">
+                            <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="AbZ-nI-psJ" userLabel="SpringboardContainer" customClass="VLNSpringboardContainer" customModule="Springclean" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
+                                <subviews>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pCj-SA-qhf" userLabel="Wallpaper">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="560"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" id="8dh-yr-Cju"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstItem="pCj-SA-qhf" firstAttribute="leading" secondItem="AbZ-nI-psJ" secondAttribute="leading" id="ELB-DF-j1P"/>
                                     <constraint firstAttribute="width" constant="320" id="J2u-k9-Tmq"/>
+                                    <constraint firstAttribute="bottom" secondItem="pCj-SA-qhf" secondAttribute="bottom" id="JBs-Rl-uYW"/>
+                                    <constraint firstItem="pCj-SA-qhf" firstAttribute="top" secondItem="AbZ-nI-psJ" secondAttribute="top" id="L3g-eq-hOW"/>
                                     <constraint firstAttribute="height" constant="560" id="cdb-ZD-YUN"/>
+                                    <constraint firstAttribute="trailing" secondItem="pCj-SA-qhf" secondAttribute="trailing" id="edi-q9-lbC"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="wallpaper" destination="pCj-SA-qhf" id="7ws-y5-QAr"/>
+                                    <outlet property="wallpaperBottomConstraint" destination="L3g-eq-hOW" id="W70-H7-oLA"/>
+                                    <outlet property="wallpaperLeftConstraint" destination="ELB-DF-j1P" id="3Cc-B7-X0V"/>
+                                    <outlet property="wallpaperRightConstraint" destination="L3g-eq-hOW" id="gGM-MW-udj"/>
+                                    <outlet property="wallpaperTopConstraint" destination="JBs-Rl-uYW" id="bX3-Lo-5z3"/>
+                                </connections>
                             </customView>
                             <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="J69-qb-vzB" userLabel="Sidebar">
                                 <rect key="frame" x="320" y="0.0" width="160" height="560"/>

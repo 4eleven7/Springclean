@@ -11,7 +11,7 @@ import Cocoa
 class MainWindow: NSWindow
 {
 	@IBOutlet var sidebar: NSVisualEffectView;
-	@IBOutlet var springboard: VLNSpringboard;
+	@IBOutlet var springboard: VLNSpringboardContainer;
 	
 	@IBOutlet var springboardWidthConstraint: NSLayoutConstraint;
 	@IBOutlet var springboardHeightConstraint: NSLayoutConstraint;
@@ -73,9 +73,21 @@ class MainWindow: NSWindow
 		self.hideDeviceSelectionView();
 	}
 	
-	func hideConnectToDeviceView()
+	func hideConnectToDeviceView(animate: Bool = false)
 	{
-		self.connectView.removeFromSuperview();
+		if (!animate)
+		{
+			self.connectView.removeFromSuperview();
+			return;
+		}
+		
+		NSAnimationContext.beginGrouping();
+		NSAnimationContext.currentContext().duration = 0.3;
+		NSAnimationContext.currentContext().completionHandler = { self.hideConnectToDeviceView(); };
+		
+		self.connectView.animator().alphaValue = 0.0;
+		
+		NSAnimationContext.endGrouping();
 	}
 	
 // MARK: Multiple Device Selection
@@ -99,33 +111,60 @@ class MainWindow: NSWindow
 		self.hideConnectToDeviceView();
 	}
 	
-	func hideDeviceSelectionView()
+	func hideDeviceSelectionView(animate: Bool = false)
 	{
-		self.deviceSelectionView.removeFromSuperview();
+		if (!animate)
+		{
+			self.deviceSelectionView.removeFromSuperview();
+			return;
+		}
+		
+		NSAnimationContext.beginGrouping();
+		NSAnimationContext.currentContext().duration = 0.3;
+		NSAnimationContext.currentContext().completionHandler = { self.hideDeviceSelectionView(); };
+		
+		self.deviceSelectionView.animator().alphaValue = 0.0;
+		
+		NSAnimationContext.endGrouping();
 	}
 	
 // MARK: Springboard
 	
 	func showSpringboard(device: VLNDevice)
 	{
-		self.hideDeviceSelectionView();
-		self.hideConnectToDeviceView();
+		if(self.springboard.device === device) {
+			return;
+		}
 		
 		var canRotate:Bool = device.classification == VLNDeviceClass.iPad;
 		var deviceSize:VLNDeviceSize = device.size.scaled(canRotate:canRotate)
 		
-		self.animateWindowToSize(size:deviceSize);
+		self.springboard.device = device;
 		
-		self.springboard.prepareSpringboardViewforDevice(device);
+		self.animateWindowToSize(size:deviceSize, onResized:
+		{
+			self.hideDeviceSelectionView(animate: true);
+			self.hideConnectToDeviceView(animate: true);
+			return;
+			var time: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)));
+			dispatch_after(time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+				self.springboard.resizedAndReadyToDisplay();
+			});
+		});
 	}
 	
-	func animateWindowToSize(size: VLNDeviceSize = VLNDeviceSize(width: 400, height: 600, scaleFactor: 1.0))
+	func animateWindowToSize(size: VLNDeviceSize = VLNDeviceSize(width: 400, height: 600, scaleFactor: 1.0), onResized:(() -> Void) = {})
 	{
 		NSAnimationContext.beginGrouping();
 		NSAnimationContext.currentContext().duration = 0.1;
 		
 		self.springboardHeightConstraint.animator().constant = size.height / size.scaleFactor;
-		self.springboardWidthConstraint.animator().constant = size.width / size.scaleFactor;
+		
+			NSAnimationContext.beginGrouping();
+			NSAnimationContext.currentContext().duration = 0.3;
+			NSAnimationContext.currentContext().completionHandler = onResized;
+			self.springboardWidthConstraint.animator().constant = size.width / size.scaleFactor;
+			NSAnimationContext.endGrouping();
 		
 		NSAnimationContext.endGrouping();
 	}
