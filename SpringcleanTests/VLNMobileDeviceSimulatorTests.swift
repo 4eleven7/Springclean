@@ -7,77 +7,133 @@
 //
 
 import XCTest
+import Cocoa
 
 class VLNMobileDeviceSimulatorTests: XCTestCase
 {
-	var deviceSimulator: VLNMobileDeviceSimulator!;
-	
-	override func setUp()
+	func testCanCreateDevices()
 	{
-		super.setUp()
+		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "999");
 		
-		self.deviceSimulator = VLNMobileDeviceSimulator();
+		XCTAssertEqual(mobile.UDID!, "999", "Mobile device UDID should be 999");
+		
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
+		
+		XCTAssertEqual(device.UDID!, "666", "Mobile device UDID should be 666");
 	}
 	
-	func testCanSimulateDevices()
+	func testCanLoadDeviceName()
 	{
-		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		XCTAssertEqual(mobile.udid!, "666", "Mobile device UDID should be 666");
+		XCTAssertEqual(device.name!, "", "Mobile device should not have a name");
+		
+		device.loadName();
+		
+		let expectation = expectationWithDescription("Device should have a name");
+		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			XCTAssertEqual(device.name!, "Dan's iPhone", "Device should have a name");
+			expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
-	func testCanSimulateDeviceName()
+	func testCanLoadDeviceScreenHeight()
 	{
-		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		XCTAssertEqual(mobile.name!, "Dan's iPhone", "Mobile device should have a name");
+		XCTAssertEqual(device.screenHeight, 0, "Mobile device should not have a screenheight");
+		
+		device.loadScreenHeight();
+		
+		let expectation = expectationWithDescription("Device should have a screenheight");
+		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			XCTAssertEqual(device.screenHeight, 560, "Device should have a screenheight");
+			expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
-	func testCanSimulateProductType()
+	func testCanLoadDeviceProperties()
 	{
-		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "666");
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		XCTAssertEqual(mobile.productType!, "iPhone6,1", "Mobile device should have a product type");
+		XCTAssertEqual(device.name!, "", "Mobile device should not have a name");
+		XCTAssertEqual(device.productType!, "", "Mobile device should not have a product type");
+		
+		let expectation = expectationWithDescription("Device should have a product type");
+		device.loadBasicDevicePropertiesWithCompletion(
+		{
+			XCTAssertEqual(device.name!, "Dan's iPhone", "Device should have a name");
+			XCTAssertEqual(device.productType!, "iPhone6,1", "Device should have a product type");
+			
+			expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
-	func testSimulatorCanSetDevicesToReturn()
+	func testCanSimulateDeviceProperties()
 	{
-		XCTAssertEqual(self.deviceSimulator.devices().count, 0, "Should not have any devices");
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		var deviceA:VLNMobileDevice = VLNMobileDevice(UDID: "666");
-		var deviceB:VLNMobileDevice = VLNMobileDevice(UDID: "665");
+		device.simulatedProperties["numberOfAudioPorts"] = "20";
 		
-		self.deviceSimulator.simulatedDevices = [deviceA, deviceB];
+		let expectation = expectationWithDescription("Device should have a numberOfAudioPorts");
+		device.loadProperty("numberOfAudioPorts", domain: "none", completion:
+		{
+			property, error in
+				XCTAssertEqual(property as String, "20", "Device should have 20 audio ports");
+				expectation.fulfill();
+		});
 		
-		XCTAssertEqual(self.deviceSimulator.devices().count, 2, "Should have 2 devices");
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
-	func testSimulatorCanSimulateDeviceAdded()
+	func testCanLoadDeviceWallpaper()
 	{
-		XCTAssertEqual(self.deviceSimulator.devices().count, 0, "Should not have any devices");
+		var device:VLNMobileDevice = VLNMobileDevice(UDID: "666");
 		
-		self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
-		self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPad3_j2aap);
+		XCTAssertNil(device.wallpaper, "Should not have a wallpaper");
 		
-		XCTAssertEqual(self.deviceSimulator.devices().count, 2, "Should have 2 devices");
+		let expectation = expectationWithDescription("Should have a wallpaper");
+		device.loadWallpaperWithCompletion(
+		{
+			wallpaper, error in
+				XCTAssertNotNil(wallpaper, "Result should have a wallpaper");
+				XCTAssertNil(error, "Should not have an error");
+			
+				expectation.fulfill();
+		});
 		
-		var deviceA:VLNMobileDevice = self.deviceSimulator.devices()[0] as VLNMobileDevice;
-		var deviceB:VLNMobileDevice = self.deviceSimulator.devices()[1] as VLNMobileDevice;
-		
-		XCTAssertEqual(deviceA.productType, VLNDeviceType.iPhone5C_n48ap.toRaw(), "Should be an iPhone 5C");
-		XCTAssertEqual(deviceB.productType, VLNDeviceType.iPad3_j2aap.toRaw(), "Should be an iPad");
-	}
-	
-	func testSimulatorCanSimulateDeviceRemoved()
-	{
-		XCTAssertEqual(self.deviceSimulator.devices().count, 0, "Should not have any devices");
-		
-		self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
-		
-		XCTAssertEqual(self.deviceSimulator.devices().count, 1, "Should have 2 devices");
-		
-		self.deviceSimulator.removeSimulatedDevice();
-		
-		XCTAssertEqual(self.deviceSimulator.devices().count, 0, "Should not have any devices");
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 }

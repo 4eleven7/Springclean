@@ -104,7 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 		} else {
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
 		}
-		
+
 		self.deviceConnector.asyncReloadDeviceList();
 	}
 	

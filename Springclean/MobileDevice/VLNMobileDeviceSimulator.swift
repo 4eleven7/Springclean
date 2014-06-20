@@ -8,139 +8,152 @@
 
 import Cocoa
 
-var iMDVLNDeviceAddedNotification: String = "net.daniellove.iMDVLNDeviceAddedNotification";
-var iMDVLNDeviceRemovedNotification: String = "net.daniellove.iMDVLNDeviceRemovedNotification";
-
-class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
-{
-	var subscribed: Bool = false;
-	
-	func subscribeForNotifications(error: NSErrorPointer) -> Bool
-	{
-		self.subscribed = true;
-		return true;
-	}
-	
-	func unsubscribeForNotifications(error: NSErrorPointer) -> Bool
-	{
-		self.subscribed = false;
-		return true;
-	}
-	
-	func getDeviceProperty(device: AnyObject!, forKey key: String!, inDomain domain: String!, error: NSErrorPointer) -> AnyObject!
-	{
-		return "";
-	}
-	
-	var simulatedDevices: VLNMobileDevice[] = VLNMobileDevice[]();
-	
-	func deviceWithUiud(udid: String) -> AnyObject!
-	{
-		for (VLNMobileDevice in)
-	}
-	
-	func devices() -> AnyObject[]!
-	{
-		return self.simulatedDevices;
-	}
-	
-	func addSimulatedDevice(type:VLNDeviceType) -> VLNMobileDevice
-	{
-		var device: VLNMobileDevice = VLNMobileDevice(UDID: getUUID());
-		device.name = type.modelName();
-		device.productType = type.toRaw();
-		
-		self.simulatedDevices.append(device);
-		
-		return device;
-	}
-	
-	func removeSimulatedDevice()
-	{
-		if self.simulatedDevices.count > 0 {
-			self.simulatedDevices.removeLast();
-		}
-	}
-	
-	func simulateDeviceAddedNotification()
-	{
-		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceAddedNotification, object: nil, userInfo: nil);
-	}
-	
-	func simulateDeviceRemovedNotification()
-	{
-		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceRemovedNotification, object: nil, userInfo: nil);
-	}
-	
-	func getUUID() -> String
-	{
-		var uuidRef:        CFUUIDRef?
-		var uuidStringRef:  CFStringRef?
-		
-		uuidRef = CFUUIDCreate(kCFAllocatorDefault)
-		uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef)
-		
-		if uuidRef {
-			uuidRef = nil
-		}
-		
-		if uuidStringRef {
-			return CFBridgingRelease(uuidStringRef!) as String;
-		}
-		
-		return "";
-	}
-}
-
 class VLNMobileDevice: VLNMobileDeviceProtocol
 {
-	var udid: String!;
+	var simulatedProperties = ["name" : "Dan's iPhone",
+								"productType" : "iPhone6,1",
+								"screenHeight" :  "560",
+								"screenWidth" :  "320",
+								"screenScaleFactor" :  "1"];
 	
-	var name: String! = "Dan's iPhone";
+	var UDID: String!;
 	
-	var productType: String! = "iPhone6,1";
-	
-	var deviceColor: NSColor! = NSColor.blueColor();
-	
-	var screenHeight: CGFloat = 560.0;
-	
-	var screenWidth: CGFloat = 320.0;
-	
-	var screenScaleFactor: CGFloat = 1.0;
-	
+	var name: String! = "";
+	var productType: String! = "";
+	var deviceColor: NSColor! = nil;
+	var screenHeight: CGFloat = 0;
+	var screenWidth: CGFloat = 0;
+	var screenScaleFactor: CGFloat = 0;
 	var wallpaper: NSImage!;
 	
-	init(UDID udid: String!)
+	init(UDID: String!)
 	{
-		self.udid = udid;
+		self.UDID = UDID;
 	}
-}
-
-@class_protocol protocol VLNMobileDeviceManagerProtocol
-{
-	var subscribed: Bool { get };
 	
-	func subscribeForNotifications(error: NSErrorPointer) -> Bool;
+	func loadName()
+	{
+		self.loadProperty("name", domain: "none", completion: {
+			property, error in
+				self.name = property as String;
+		});
+	}
 	
-	func unsubscribeForNotifications(error: NSErrorPointer) -> Bool;
+	func loadProductType()
+	{
+		self.loadProperty("productType", domain: "none", completion: {
+			property, error in
+				self.productType = property as String;
+		});
+	}
 	
-	func devices() -> AnyObject[]!;
+	func loadDeviceColor()
+	{
+		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			self.deviceColor = NSColor.blueColor();
+		})
+	}
 	
-	func deviceWithUiud(udid: String) -> AnyObject!;
-
-	func getDeviceProperty(device: AnyObject!, forKey key: String!, inDomain domain: String!, error: NSErrorPointer) -> AnyObject!;
+	func loadScreenHeight()
+	{
+		self.loadProperty("screenHeight", domain: "none", completion: {
+			property, error in
+				var result : String = property as String;
+				self.screenHeight = CGFloat(result.bridgeToObjectiveC().floatValue);
+		});
+	}
+	
+	func loadScreenWidth()
+	{
+		self.loadProperty("screenWidth", domain: "none", completion: {
+			property, error in
+				self.screenWidth = property as CGFloat;
+		});
+	}
+	
+	func loadScreenScaleFactor()
+	{
+		self.loadProperty("screenScaleFactor", domain: "none", completion: {
+			property, error in
+				self.screenScaleFactor = property as CGFloat;
+		});
+	}
+	
+	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!)
+	{
+		dispatch_async(dispatch_get_main_queue(),
+		{
+			self.name = "Dan's iPhone";
+			self.productType = "iPhone6,1";
+			self.deviceColor = NSColor.blueColor();
+			self.screenHeight = 560.0;
+			self.screenWidth = 320.0;
+			self.screenScaleFactor = 1.0;
+			
+			if (completionHandler) {
+				completionHandler();
+			}
+		});
+	}
+	
+	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!)
+	{
+		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			var result : AnyObject = self.simulatedProperties[key]!;
+			if (completionHandler) {
+				completionHandler(result, nil);
+			}
+		});
+	}
+	
+	func loadWallpaperWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!)
+	{
+		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			var wallpaper: NSImage = NSImage(size: NSSize(width: 20, height: 20));
+			wallpaper.lockFocus();
+			NSColor.grayColor().drawSwatchInRect(NSMakeRect(0.0, 0.0, 20.0, 20.0));
+			wallpaper.unlockFocus();
+			
+			if (completionHandler) {
+				completionHandler(wallpaper, nil);
+			}
+		});
+	}
 }
 
 @objc @class_protocol protocol VLNMobileDeviceProtocol
 {
-	var udid: String! { get };
-	var name: String! { get };
-	var productType: String! { get };
-	var deviceColor: NSColor! { get };
-	var screenHeight: CGFloat { get };
-	var screenWidth: CGFloat { get };
-	var screenScaleFactor: CGFloat { get };
-	var wallpaper: NSImage! { get };
+	var UDID: String! { get }
 	
-	init(UDID udid: String!);
+	var name: String! { get }
+	var productType: String! { get }
+	var deviceColor: NSColor! { get }
+	var wallpaper: NSImage! { get }
+	var screenHeight: CGFloat { get }
+	var screenWidth: CGFloat { get }
+	var screenScaleFactor: CGFloat { get }
+	
+	init(UDID: String!)
+	
+	func loadName()
+	func loadProductType()
+	func loadDeviceColor()
+	func loadScreenHeight()
+	func loadScreenWidth()
+	func loadScreenScaleFactor()
+	
+	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!)
+	
+	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!)
+	
+	func loadWallpaperWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!)
 }

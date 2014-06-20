@@ -67,7 +67,7 @@ class VLNMobileDeviceConnector: NSObject
 				}
 				
 				// Already exists?
-				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.udid!);
+				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
 				if (currentDevice != nil)
 				{
 					oldDevices.removeObject(currentDevice);
@@ -80,7 +80,7 @@ class VLNMobileDeviceConnector: NSObject
 					deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
 				}
 				
-				var device: VLNDevice = VLNDevice(uuid: newDevice.udid, name: newDevice.name!, type: deviceType);
+				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.name!, type: deviceType);
 				device.size = VLNDeviceSize(width: newDevice.screenWidth, height: newDevice.screenHeight, scaleFactor: newDevice.screenScaleFactor);
 				device.wallpaper = newDevice.wallpaper;
 				newDevices.addObject(device);
@@ -96,15 +96,30 @@ class VLNMobileDeviceConnector: NSObject
 		});
 	}
 	
-	func addDevice(udid: String) -> VLNDevice
+	func addDevice(udid: String) -> AnyObject
 	{
-		let rawDevice = self.deviceConnector.deviceWithUiud(udid);
+		let rawDevice :AnyObject = self.deviceConnector.deviceWithUDID(udid);
 		var newDevice: VLNMobileDeviceProtocol;
 		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
 			newDevice = rawDevice as VLNMobileDevice;
 		} else {
 			newDevice = rawDevice as VLNMobileDeviceProtocol;
 		}
+		
+		return newDevice as AnyObject;
+	}
+	
+	func removeDevice(udid: String) -> AnyObject
+	{
+		let rawDevice :AnyObject = self.deviceConnector.deviceWithUDID(udid);
+		var newDevice: VLNMobileDeviceProtocol;
+		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
+			newDevice = rawDevice as VLNMobileDevice;
+		} else {
+			newDevice = rawDevice as VLNMobileDeviceProtocol;
+		}
+		
+		return newDevice as AnyObject;
 	}
 	
 // MARK: Notifications
@@ -144,8 +159,8 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceAddedNotification(notification: NSNotification)
 	{
-		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID);
-		if (udid)
+		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
+		if (udid != nil && !udid.isEmpty)
 		{
 			self.addDevice(udid);
 			return
@@ -156,8 +171,8 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceRemovedNotification(notification: NSNotification)
 	{
-		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID);
-		if (udid)
+		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
+		if (udid != nil && !udid.isEmpty)
 		{
 			self.removeDevice(udid);
 			return
