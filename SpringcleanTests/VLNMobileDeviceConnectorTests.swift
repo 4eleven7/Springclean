@@ -36,7 +36,11 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 				expectation.fulfill();
 		});
 		
-		waitForExpectationsWithTimeout(2, nil);
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
 	func testReloadingDevices()
@@ -54,7 +58,11 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 				expectation1st.fulfill();
 		});
 		
-		waitForExpectationsWithTimeout(2, handler: nil);
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
 	}
 	
 	func testReloadingManyDevices()
@@ -81,7 +89,7 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 				
 				self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPod2ndG);
 				self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n49ap);
-				
+			
 				self.deviceConnector.reloadDeviceList(
 				{
 					result in
@@ -128,6 +136,65 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 				});
 			
 				self.waitForExpectationsWithTimeout(2, handler: nil);
+		});
+	}
+	
+	func testNotificationAddDevice()
+	{
+		XCTAssertEqual(self.deviceManager.devices.count, 0, "Should not have any devices");
+		
+		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n49ap);
+		
+		self.expectationForNotification(VLNDeviceManagerDeviceListChangedNotification, object:nil, handler:
+		{
+			notification in
+				XCTAssertNotNil(notification, "Notfication should not be empty");
+				return true;
+		});
+		
+		self.expectationForNotification(iMDVLNDeviceAddedNotification, object:nil, handler:
+		{
+			notification in
+				XCTAssertNotNil(notification, "Notfication should not be empty");
+				XCTAssertEqual(notification.userInfo.objectForKey(iMDVLNDeviceNotificationKeyUDID) as String, device.UDID, "Notification UDID should be same as the device");
+				return true;
+		});
+		
+		self.deviceConnector.addDevice(device.UDID, addAndNotify: true);
+		self.deviceSimulator.simulateDeviceAddedNotification(device.UDID);
+		
+		self.waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
+	}
+	
+	func testNotificationPostedOnUpdate()
+	{
+		XCTAssertEqual(self.deviceManager.devices.count, 0, "Should not have any devices");
+		
+		let expectation = expectationWithDescription("Should have one device");
+		self.expectationForNotification(VLNDeviceManagerDeviceListChangedNotification, object:nil, handler:
+		{
+			notification in
+				XCTAssertNotNil(notification, "Notfication should not be empty");
+				return true;
+		});
+		
+		self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPadAir_j72ap);
+		self.deviceConnector.reloadDeviceList(
+		{
+			result in
+				XCTAssertTrue(result, "Result should be true as there were changes");
+				XCTAssertEqual(self.deviceManager.devices.count, 1, "Should have one device");
+				expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
 		});
 	}
 }

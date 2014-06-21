@@ -73,6 +73,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	
 	func deviceSelectionView(view: VLNDeviceSelectionView!, selectedIndex: Int)
 	{
+		if (selectedIndex < 0 && selectedIndex > self.deviceManager.devices.count) {
+			return;
+		}
+		
 		self.deviceManager.selectedDevice = self.deviceManager.deviceAtIndex(selectedIndex);
 		self.window.showSpringboard(self.deviceManager.selectedDevice!);
 	}
@@ -105,30 +109,52 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 			self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.mobileDeviceSimulator);
 		}
 
-		self.deviceConnector.asyncReloadDeviceList();
+		self.deviceConnector.reloadDeviceList();
 	}
 	
-// MARK: IBActions
+	// MARK: IBActions
+	
+	@IBAction func displaySwitchDeviceMenu(sender: AnyObject)
+	{
+		self.window.springboard.device = nil;
+		self.deviceManager.selectedDevice = nil;
+		self.window.showDeviceSelectionView(delegate: self);
+	}
+	
+	@IBAction func disconnectCurrentDevice(sender: AnyObject)
+	{
+		self.window.springboard.device = nil;
+		self.deviceManager.selectedDevice = nil;
+		
+		if (self.deviceManager.devices.count >= 2) {
+			self.window.showDeviceSelectionView(delegate: self);
+		}
+		else {
+			self.window.showConnectToDeviceView();
+		}
+	}
 	
 	@IBAction func addSimulatediPhone(sender: AnyObject)
 	{
 		enableDeveloperMenu(true);
 		
-		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5S_n53ap);
-		self.mobileDeviceSimulator.simulateDeviceAddedNotification();
+		var device:VLNMobileDevice = self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5S_n53ap);
+		self.mobileDeviceSimulator.simulateDeviceAddedNotification(device.UDID);
 	}
 	
 	@IBAction func addSimulatediPad(sender: AnyObject)
 	{
 		enableDeveloperMenu(true);
-		self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPadAir_j72ap);
-		self.mobileDeviceSimulator.simulateDeviceAddedNotification();
+		var device:VLNMobileDevice = self.mobileDeviceSimulator.addSimulatedDevice(VLNDeviceType.iPadAir_j72ap);
+		self.mobileDeviceSimulator.simulateDeviceAddedNotification(device.UDID);
 	}
 	
 	@IBAction func deleteSimulatedDevice(sender: AnyObject)
 	{
-		self.mobileDeviceSimulator.removeSimulatedDevice();
-		self.mobileDeviceSimulator.simulateDeviceRemovedNotification();
+		var device:VLNMobileDevice? = self.mobileDeviceSimulator.removeSimulatedDevice();
+		if (device) {
+			self.mobileDeviceSimulator.simulateDeviceRemovedNotification(device!.UDID);
+		}
 		
 		if (self.mobileDeviceSimulator.devices().count == 0) {
 			enableDeveloperMenu(false);

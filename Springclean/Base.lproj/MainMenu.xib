@@ -87,6 +87,25 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Devices" id="15a-Np-clg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Devices" id="r2H-tR-hSq">
+                        <items>
+                            <menuItem title="Select Device..." id="gd8-34-2fk">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="displaySwitchDeviceMenu:" target="Voe-Tx-rLC" id="aMl-Mu-HRI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Disconnect Current Device" id="Qtk-IT-dfO">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="disconnectCurrentDevice:" target="Voe-Tx-rLC" id="MtI-lM-LyY"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Developer" id="HtH-me-G4y">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Developer" id="vJV-a0-VaC">

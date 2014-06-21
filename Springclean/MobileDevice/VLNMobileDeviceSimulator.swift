@@ -49,7 +49,7 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	
 	func loadDeviceColor()
 	{
-		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let delay = 0.1 * Double(NSEC_PER_SEC)
 		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 		dispatch_after(time, dispatch_get_current_queue(),
 		{
@@ -101,7 +101,7 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	
 	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!)
 	{
-		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let delay = 0.1 * Double(NSEC_PER_SEC)
 		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 		dispatch_after(time, dispatch_get_current_queue(),
 		{
@@ -114,7 +114,7 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	
 	func loadWallpaperWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!)
 	{
-		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let delay = 0.1 * Double(NSEC_PER_SEC)
 		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 		dispatch_after(time, dispatch_get_current_queue(),
 		{

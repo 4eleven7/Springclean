@@ -64,7 +64,7 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 		});
 	}
 	
-	// MARK: Simulation
+// MARK: Simulation
 	
 	var simulatedDevices: VLNMobileDevice[] = VLNMobileDevice[]();
 	
@@ -79,40 +79,29 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 		return device;
 	}
 	
-	func removeSimulatedDevice()
+	func removeSimulatedDevice() -> VLNMobileDevice?
 	{
-		if self.simulatedDevices.count > 0 {
-			self.simulatedDevices.removeLast();
-		}
-	}
-	
-	func simulateDeviceAddedNotification()
-	{
-		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceAddedNotification, object: nil, userInfo: nil);
-	}
-	
-	func simulateDeviceRemovedNotification()
-	{
-		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceRemovedNotification, object: nil, userInfo: nil);
-	}
-	
-	func getUUID() -> String
-	{
-		var uuidRef:        CFUUIDRef?
-		var uuidStringRef:  CFStringRef?
-		
-		uuidRef = CFUUIDCreate(kCFAllocatorDefault)
-		uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef)
-		
-		if uuidRef {
-			uuidRef = nil
+		if (self.simulatedDevices.count > 0) {
+			return self.simulatedDevices.removeLast();
 		}
 		
-		if uuidStringRef {
-			return CFBridgingRelease(uuidStringRef!) as String;
-		}
-		
-		return "";
+		return nil;
+	}
+	
+	func simulateDeviceAddedNotification(UDID: String)
+	{
+		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceAddedNotification, object: nil, userInfo: [iMDVLNDeviceNotificationKeyUDID: UDID]);
+	}
+	
+	func simulateDeviceRemovedNotification(UDID: String)
+	{
+		NSNotificationCenter.defaultCenter().postNotificationName(iMDVLNDeviceRemovedNotification, object: nil, userInfo: [iMDVLNDeviceNotificationKeyUDID: UDID]);
+	}
+	
+	func getUUID() -> String!
+	{
+		var uuid: String = NSUUID().UUIDString;
+		return "fake-\(uuid)";
 	}
 }
 

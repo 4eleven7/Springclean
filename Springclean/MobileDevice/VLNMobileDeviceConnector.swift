@@ -13,7 +13,7 @@ var VLNDeviceManagerDeviceListChangedNotification: String = "VLNDeviceManagerDev
 class VLNMobileDeviceConnector: NSObject
 {
 	let deviceManager: VLNDeviceManager!;
-	let deviceConnector: VLNMobileDeviceManagerProtocol;
+	let deviceConnector: VLNMobileDeviceManagerProtocol!;
 	
 	init (deviceManager: VLNDeviceManager, deviceConnector: VLNMobileDeviceManagerProtocol)
 	{
@@ -30,23 +30,10 @@ class VLNMobileDeviceConnector: NSObject
 		self.unsubscribeForNotifications();
 	}
 	
-	func asyncReloadDeviceList()
-	{
-		self.reloadDeviceList(completionHandler:
-		{
-			result in
-				if (result)
-				{
-					dispatch_async(dispatch_get_main_queue(),{
-						self.postDeviceListDidChange();
-					});
-				}
-		});
-	}
 	/**
 	* Returns true if changes, false if no changes
 	*/
-	func reloadDeviceList(completionHandler handler: ((Bool) -> Void)?)
+	func reloadDeviceList(completionHandler handler: ((Bool) -> Void)? = nil)
 	{
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
 		{
@@ -55,10 +42,9 @@ class VLNMobileDeviceConnector: NSObject
 			
 			// Devices added here, or removed from oldDevices, will be added/kept
 			var newDevices: NSMutableArray = NSMutableArray();
-
+			
 			for rawDevice : AnyObject in self.deviceConnector.devices()
 			{
-				//let newDevice: VLNMobileDevice = rawDevice as VLNMobileDevice;
 				var newDevice: VLNMobileDeviceProtocol;
 				if (rawDevice.isKindOfClass(VLNMobileDevice)) {
 					newDevice = rawDevice as VLNMobileDevice;
@@ -67,22 +53,14 @@ class VLNMobileDeviceConnector: NSObject
 				}
 				
 				// Already exists?
-				var currentDevice: VLNDevice? = self.deviceManager.findDeviceByUUID(newDevice.UDID!);
+				var currentDevice: VLNDevice? = self.existingDevice(newDevice.UDID) as? VLNDevice;
 				if (currentDevice != nil)
 				{
 					oldDevices.removeObject(currentDevice);
 					continue;
 				}
 				
-				// Create new device
-				var deviceType:VLNDeviceType! = VLNDeviceType.unknown;
-				if (newDevice.productType) {
-					deviceType = VLNDeviceType.fromRaw(newDevice.productType!);
-				}
-				
-				var device: VLNDevice = VLNDevice(uuid: newDevice.UDID, name: newDevice.name!, type: deviceType);
-				device.size = VLNDeviceSize(width: newDevice.screenWidth, height: newDevice.screenHeight, scaleFactor: newDevice.screenScaleFactor);
-				device.wallpaper = newDevice.wallpaper;
+				var device: VLNDevice = self.addDevice(newDevice.UDID) as VLNDevice;
 				newDevices.addObject(device);
 			}
 
@@ -90,28 +68,25 @@ class VLNMobileDeviceConnector: NSObject
 			self.deviceManager.addDevices(newDevices);
 			
 			var result: Bool = (newDevices.count != 0 || oldDevices.count != 0);
-			if (handler) {
-				handler!(result);
-			}
+			dispatch_async(dispatch_get_main_queue(),
+			{
+				if (handler) {
+					handler!(result);
+				}
+				
+				self.postDeviceListDidChange();
+			});
 		});
 	}
 	
-	func addDevice(udid: String) -> AnyObject
+	func existingDevice(UDID: String) -> AnyObject?
 	{
-		let rawDevice :AnyObject = self.deviceConnector.deviceWithUDID(udid);
-		var newDevice: VLNMobileDeviceProtocol;
-		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
-			newDevice = rawDevice as VLNMobileDevice;
-		} else {
-			newDevice = rawDevice as VLNMobileDeviceProtocol;
-		}
-		
-		return newDevice as AnyObject;
+		return self.deviceManager.findDeviceByUUID(UDID);
 	}
 	
-	func removeDevice(udid: String) -> AnyObject
+	func addDevice(UDID: String, addAndNotify: Bool = false) -> AnyObject
 	{
-		let rawDevice :AnyObject = self.deviceConnector.deviceWithUDID(udid);
+		let rawDevice: AnyObject = self.deviceConnector.deviceWithUDID(UDID);
 		var newDevice: VLNMobileDeviceProtocol;
 		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
 			newDevice = rawDevice as VLNMobileDevice;
@@ -119,15 +94,36 @@ class VLNMobileDeviceConnector: NSObject
 			newDevice = rawDevice as VLNMobileDeviceProtocol;
 		}
 		
-		return newDevice as AnyObject;
+		var device: VLNDevice = VLNDevice(uuid: newDevice.UDID);
+		
+		if (addAndNotify)
+		{
+			self.deviceManager.addDevice(device);
+			self.postDeviceListDidChange();
+		}
+		
+		return device;
+	}
+	
+	func removeDevice(UDID: String, removeAndNotify: Bool = false) -> AnyObject
+	{
+		var device: VLNDevice = self.existingDevice(UDID) as VLNDevice;
+		
+		if (removeAndNotify)
+		{
+			self.deviceManager.removeDevice(device);
+			self.postDeviceListDidChange();
+		}
+		
+		return device as AnyObject;
 	}
 	
 // MARK: Notifications
 	
 	func subscribeForNotifications()
 	{
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: iMDVLNDeviceAddedNotification, object: nil);
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: iMDVLNDeviceRemovedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceAddedNotification:", name: iMDVLNDeviceAddedNotification, object: self.deviceConnector);
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceRemovedNotification:", name: iMDVLNDeviceRemovedNotification, object: self.deviceConnector);
 		
 		var error: NSError?;
 		var subscribed: Bool = self.deviceConnector.subscribeForNotifications(&error);
@@ -139,8 +135,8 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func unsubscribeForNotifications()
 	{
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceAddedNotification, object: nil);
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceRemovedNotification, object: nil);
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceAddedNotification, object: self.deviceConnector);
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: iMDVLNDeviceRemovedNotification, object: self.deviceConnector);
 		
 		var error: NSError?;
 		var unsubscribed: Bool = self.deviceConnector.unsubscribeForNotifications(&error);
@@ -159,25 +155,29 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceAddedNotification(notification: NSNotification)
 	{
-		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
-		if (udid != nil && !udid.isEmpty)
+		var UDID: String = notification.userInfo.objectForKey(iMDVLNDeviceNotificationKeyUDID) as String;
+		if (UDID != nil && !UDID.isEmpty)
 		{
-			self.addDevice(udid);
+			if (self.existingDevice(UDID) == nil) {
+				self.addDevice(UDID, addAndNotify: true);
+			}
 			return
 		}
 		
-		self.asyncReloadDeviceList();
+		self.reloadDeviceList();
 	}
 	
 	func deviceRemovedNotification(notification: NSNotification)
 	{
-		var udid: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
-		if (udid != nil && !udid.isEmpty)
+		var UDID: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
+		if (UDID != nil && !UDID.isEmpty)
 		{
-			self.removeDevice(udid);
+			if (self.existingDevice(UDID) != nil) {
+				self.removeDevice(UDID, removeAndNotify: true);
+			}
 			return
 		}
 		
-		self.asyncReloadDeviceList();
+		self.reloadDeviceList();
 	}
 }

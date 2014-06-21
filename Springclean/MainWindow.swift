@@ -64,6 +64,8 @@ class MainWindow: NSWindow
 			var views: Dictionary<String, NSView> = ["connectView": self.connectView];
 			self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[connectView]|", options: nil, metrics: nil, views: views));
 			self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[connectView]|", options: nil, metrics: nil, views: views));
+			
+			self.connectView.alphaValue = 1.0;
 		}
 		
 		self.connectView.updateConstraints();
@@ -101,6 +103,8 @@ class MainWindow: NSWindow
 			var views: Dictionary<String, NSView> = ["deviceSelectionView": self.deviceSelectionView];
 			self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
 			self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deviceSelectionView]|", options: nil, metrics: nil, views: views));
+			
+			self.deviceSelectionView.alphaValue = 1.0;
 		}
 		
 		self.deviceSelectionView.delegate = delegate;

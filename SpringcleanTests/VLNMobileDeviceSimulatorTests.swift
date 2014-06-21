@@ -31,7 +31,7 @@ class VLNMobileDeviceSimulatorTests: XCTestCase
 		device.loadName();
 		
 		let expectation = expectationWithDescription("Device should have a name");
-		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let delay = 0.1 * Double(NSEC_PER_SEC)
 		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 		dispatch_after(time, dispatch_get_current_queue(),
 		{
@@ -55,7 +55,7 @@ class VLNMobileDeviceSimulatorTests: XCTestCase
 		device.loadScreenHeight();
 		
 		let expectation = expectationWithDescription("Device should have a screenheight");
-		let delay = 1.0 * Double(NSEC_PER_SEC)
+		let delay = 0.1 * Double(NSEC_PER_SEC)
 		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 		dispatch_after(time, dispatch_get_current_queue(),
 		{
