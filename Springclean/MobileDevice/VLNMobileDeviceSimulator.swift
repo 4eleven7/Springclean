@@ -21,10 +21,30 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 	var name: String! = "";
 	var productType: String! = "";
 	var deviceColor: NSColor! = nil;
+	
 	var screenHeight: CGFloat = 0;
 	var screenWidth: CGFloat = 0;
 	var screenScaleFactor: CGFloat = 0;
+	
 	var wallpaper: NSImage!;
+	var screenshot: NSImage!;
+	
+	var springboardIconGridColumns: CGFloat = 0;
+	var springboardIconGridRows: CGFloat = 0;
+	var springboardIconMaxPages: CGFloat = 0;
+	
+	var springboardFolderGridColumns: CGFloat = 0;
+	var springboardFolderGridRows: CGFloat = 0;
+	var springboardFolderMaxPages: CGFloat = 0;
+	
+	var springboardDockIconMaxCount: CGFloat = 0;
+	
+	var springboardIconHeight: CGFloat = 0;
+	var springboardIconWidth: CGFloat = 0;
+	
+	var springboardVideosSupported: Bool = false;
+	var springboardNewsStandSupported: Bool = false;
+	var springboardWillSaveIconStateChanges: Bool = false;
 	
 	init(UDID: String!)
 	{
@@ -128,32 +148,126 @@ class VLNMobileDevice: VLNMobileDeviceProtocol
 			}
 		});
 	}
+	
+	func loadScreenshotWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!)
+	{
+		let delay = 0.1 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			var wallpaper: NSImage = NSImage(size: NSSize(width: 20, height: 20));
+			wallpaper.lockFocus();
+			NSColor.blackColor().drawSwatchInRect(NSMakeRect(0.0, 0.0, 20.0, 20.0));
+			wallpaper.unlockFocus();
+			
+			if (completionHandler) {
+				completionHandler(wallpaper, nil);
+			}
+		});
+	}
+	
+	func getIconStateWithCompletion(completionHandler: ((NSDictionary!, NSError!) -> Void)!)
+	{
+		let delay = 0.1 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			if (completionHandler) {
+				completionHandler(["key":"value"], nil);
+			}
+		});
+	}
+	
+	func setIconState(iconState: NSDictionary!, withCompletion completionHandler: ((Bool, NSError!) -> Void)!)
+	{
+		let delay = 0.1 * Double(NSEC_PER_SEC)
+		let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+		dispatch_after(time, dispatch_get_current_queue(),
+		{
+			if (completionHandler) {
+				completionHandler(true, nil);
+			}
+		});
+	}
+	
+	func loadSpringboardDisplayPropertiesWithCompletion(completionHandler: (() -> Void)!)
+	{
+		dispatch_async(dispatch_get_main_queue(),
+		{
+			self.springboardIconGridColumns = 4;
+			self.springboardIconGridRows = 5;
+			self.springboardIconMaxPages = 15;
+			
+			self.springboardFolderGridColumns = 3;
+			self.springboardFolderGridRows = 3;
+			self.springboardFolderMaxPages = 15;
+			
+			self.springboardDockIconMaxCount = 4;
+			
+			self.springboardIconHeight = 60;
+			self.springboardIconWidth = 60;
+			
+			self.springboardVideosSupported = true;
+			self.springboardNewsStandSupported = true;
+			self.springboardWillSaveIconStateChanges = true;
+			
+			if (completionHandler) {
+				completionHandler();
+			}
+		});
+	}
+	
 }
 
 @objc @class_protocol protocol VLNMobileDeviceProtocol
 {
-	var UDID: String! { get }
+	var UDID: String! { get };
 	
-	var name: String! { get }
-	var productType: String! { get }
-	var deviceColor: NSColor! { get }
-	var wallpaper: NSImage! { get }
-	var screenHeight: CGFloat { get }
-	var screenWidth: CGFloat { get }
-	var screenScaleFactor: CGFloat { get }
+	var name: String! { get };
+	var productType: String! { get };
+	var deviceColor: NSColor! { get };
 	
-	init(UDID: String!)
+	var screenHeight: CGFloat { get };
+	var screenWidth: CGFloat { get };
+	var screenScaleFactor: CGFloat { get };
 	
-	func loadName()
-	func loadProductType()
-	func loadDeviceColor()
-	func loadScreenHeight()
-	func loadScreenWidth()
-	func loadScreenScaleFactor()
+	var wallpaper: NSImage! { get };
+	var screenshot: NSImage! { get };
 	
-	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!)
+	var springboardIconGridColumns: CGFloat { get };
+	var springboardIconGridRows: CGFloat { get };
+	var springboardIconMaxPages: CGFloat { get };
 	
-	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!)
+	var springboardFolderGridColumns: CGFloat { get };
+	var springboardFolderGridRows: CGFloat { get };
+	var springboardFolderMaxPages: CGFloat { get };
 	
-	func loadWallpaperWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!)
+	var springboardDockIconMaxCount: CGFloat { get };
+	
+	var springboardIconHeight: CGFloat { get };
+	var springboardIconWidth: CGFloat { get };
+	var springboardVideosSupported: Bool { get };
+	var springboardNewsStandSupported: Bool { get };
+	var springboardWillSaveIconStateChanges: Bool { get };
+	
+	init(UDID: String!);
+	
+	func loadName();
+	func loadProductType();
+	func loadDeviceColor();
+	
+	func loadScreenHeight();
+	func loadScreenWidth();
+	func loadScreenScaleFactor();
+	
+	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!);
+	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!);
+	
+	func loadWallpaperWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!);
+	func loadScreenshotWithCompletion(completionHandler: ((NSImage!, NSError!) -> Void)!);
+	
+	func getIconStateWithCompletion(completionHandler: ((NSDictionary!, NSError!) -> Void)!);
+	func setIconState(iconState: NSDictionary!, withCompletion completionHandler: ((Bool, NSError!) -> Void)!);
+	
+	func loadSpringboardDisplayPropertiesWithCompletion(completionHandler: (() -> Void)!);
 }

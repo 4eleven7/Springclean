@@ -140,8 +140,12 @@ class MainWindow: NSWindow
 			return;
 		}
 		
+		var deviceSize:VLNDeviceSize = device.size.scale();
+		
 		var canRotate:Bool = device.classification == VLNDeviceClass.iPad;
-		var deviceSize:VLNDeviceSize = device.size.scaled(canRotate:canRotate)
+		if (canRotate) {
+			deviceSize = deviceSize.rotate();
+		}
 		
 		self.springboard.device = device;
 		
@@ -149,11 +153,13 @@ class MainWindow: NSWindow
 		{
 			self.hideDeviceSelectionView(animate: true);
 			self.hideConnectToDeviceView(animate: true);
+			/*
 			return;
 			var time: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)));
 			dispatch_after(time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
 				self.springboard.resizedAndReadyToDisplay();
 			});
+			*/
 		});
 	}
 	

@@ -73,6 +73,31 @@ class VLNMobileDeviceManagerSimulatorTests: XCTestCase
 		XCTAssertEqualObjects(deviceB.UDID, retreivedDevice.UDID, "Should be device b");
 	}
 	
+	func testSimulatorCanGetDeviceProperty()
+	{
+		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
+		
+		XCTAssertNil(device.wallpaper, "Should not have a wallpaper");
+		
+		let expectation = expectationWithDescription("Should have a wallpaper");
+		
+		self.deviceSimulator.getDeviceProperty(device, forKey: "name", inDomain: "none", completion:
+		{
+			property, error in
+				XCTAssertNotNil(property, "Property should not be empty");
+				XCTAssertEqual(property as String, "Dan's iPhone", "Should be dan's iphone");
+				XCTAssertNil(error, "Should not have an error");
+				
+				expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
+	}
+	
 	func testSimulatorCanSimulateWallpaper()
 	{
 		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
@@ -97,21 +122,64 @@ class VLNMobileDeviceManagerSimulatorTests: XCTestCase
 		});
 	}
 	
-	func testSimulatorCanGetDeviceProperty()
+	func testSimulatorCanSimulateScreenshot()
 	{
 		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
 		
-		XCTAssertNil(device.wallpaper, "Should not have a wallpaper");
+		XCTAssertNil(device.wallpaper, "Should not have a screenshot");
 		
-		let expectation = expectationWithDescription("Should have a wallpaper");
+		let expectation = expectationWithDescription("Should have a screenshot");
 		
-		self.deviceSimulator.getDeviceProperty(device, forKey: "name", inDomain: "none", completion:
+		self.deviceSimulator.getDeviceScreenshot(device,
 		{
-			property, error in
-				XCTAssertNotNil(property, "Property should not be empty");
-				XCTAssertEqual(property as String, "Dan's iPhone", "Should be dan's iphone");
+			screenshot, error in
+				XCTAssertNotNil(screenshot, "Result should have a screenshot");
 				XCTAssertNil(error, "Should not have an error");
 				
+				expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
+	}
+	
+	func testSimulatorCanGetIconState()
+	{
+		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
+		
+		let expectation = expectationWithDescription("Should have an icon state");
+		
+		self.deviceSimulator.getSpringboardIconStateOnDevice(device, completion:
+		{
+			iconState, error in
+				XCTAssertNotNil(iconState, "Should have an icon state");
+				XCTAssertNil(error, "Should not have an error");
+			
+				expectation.fulfill();
+		});
+		
+		waitForExpectationsWithTimeout(2, handler:
+		{
+			error in
+				XCTAssertNil(error, "There should be no error");
+		});
+	}
+	
+	func testSimulatorCanSetIconState()
+	{
+		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n48ap);
+		
+		let expectation = expectationWithDescription("Should have an icon state");
+		
+		self.deviceSimulator.setSpringboardIconStateOnDevice(device, iconState: ["key":"value"], completion:
+		{
+			result, error in
+				XCTAssertTrue(result, "Should have succeeded");
+				XCTAssertNil(error, "Should not have an error");
+			
 				expectation.fulfill();
 		});
 		

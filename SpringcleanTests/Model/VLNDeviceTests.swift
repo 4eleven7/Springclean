@@ -87,4 +87,55 @@ class VLNDeviceTests: XCTestCase
 		
 		XCTAssertEqual(device.type.modelName(), "Unknown", "Device model name should be unknown");
 	}
+	
+	func testDeviceSize()
+	{
+		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
+		
+		XCTAssertEqual(device.size.width, 320.0, "Device width should be the default of 320");
+		XCTAssertEqual(device.size.height, 560.0, "Device height should be the default of 560");
+		XCTAssertEqual(device.size.scaleFactor, 1.0, "Device scale should be the default of 1");
+		
+		device.size = VLNDeviceSize(width: 500.0, height: 400.0, scaleFactor:2.0);
+		
+		XCTAssertEqual(device.size.width, 500.0, "Device width should be set to 500");
+		XCTAssertEqual(device.size.height, 400.0, "Device height shouldd be set to 400");
+		XCTAssertEqual(device.size.scaleFactor, 2.0, "Device scale should be set to 2");
+	}
+	
+	func testDeviceSizeScaled()
+	{
+		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
+		device.size = VLNDeviceSize(width: 400.0, height: 500.0, scaleFactor:2.0);
+		
+		var scaledSize: VLNDeviceSize = device.size.scale();
+		
+		XCTAssertEqual(scaledSize.width, 200.0, "Device width should be set to 200");
+		XCTAssertEqual(scaledSize.height, 250.0, "Device height shouldd be set to 250");
+		XCTAssertEqual(scaledSize.scaleFactor, 1.0, "Device scale should be set to 1");
+	}
+	
+	func testDeviceSizeRotated()
+	{
+		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
+		device.size = VLNDeviceSize(width: 400.0, height: 800.0, scaleFactor:2.0);
+		
+		var scaledSize: VLNDeviceSize = device.size.rotate();
+		
+		XCTAssertEqual(scaledSize.width, 800.0, "Device width should be set to 400");
+		XCTAssertEqual(scaledSize.height, 400.0, "Device height shouldd be set to 200");
+		XCTAssertEqual(scaledSize.scaleFactor, 2.0, "Device scale should be set to 1");
+	}
+	
+	func testDeviceSizeScaledAndRotated()
+	{
+		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
+		device.size = VLNDeviceSize(width: 400.0, height: 800.0, scaleFactor:2.0);
+		
+		var scaledAndRotatedSize: VLNDeviceSize = device.size.scaleAndRotate();
+		
+		XCTAssertEqual(scaledAndRotatedSize.width, 400.0, "Device width should be set to 200");
+		XCTAssertEqual(scaledAndRotatedSize.height, 200.0, "Device height shouldd be set to 200");
+		XCTAssertEqual(scaledAndRotatedSize.scaleFactor, 1.0, "Device scale should be set to 1");
+	}
 }

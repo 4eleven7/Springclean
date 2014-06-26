@@ -64,6 +64,39 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 		});
 	}
 	
+	func getDeviceScreenshot(device: AnyObject!, completion completionHandler: ((NSImage!, NSError!) -> Void)!)
+	{
+		var rawDevice: VLNMobileDevice = device as VLNMobileDevice;
+		rawDevice.loadScreenshotWithCompletion({
+			screenshot, error in
+				if (completionHandler) {
+					completionHandler(screenshot, error);
+				}
+		});
+	}
+	
+	func getSpringboardIconStateOnDevice(device: AnyObject!, completion completionHandler: ((NSDictionary!, NSError!) -> Void)!)
+	{
+		var rawDevice: VLNMobileDevice = device as VLNMobileDevice;
+		rawDevice.getIconStateWithCompletion({
+			iconState, error in
+				if (completionHandler) {
+					completionHandler(iconState, error);
+				}
+		});
+	}
+	
+	func setSpringboardIconStateOnDevice(device: AnyObject!, iconState iconStateDictionary: NSDictionary!, completion completionHandler: ((Bool, NSError!) -> Void)!)
+	{
+		var rawDevice: VLNMobileDevice = device as VLNMobileDevice;
+		rawDevice.setIconState(iconStateDictionary, withCompletion:{
+			success, error in
+				if (completionHandler) {
+					completionHandler(success, error);
+				}
+		});
+	}
+	
 // MARK: Simulation
 	
 	var simulatedDevices: VLNMobileDevice[] = VLNMobileDevice[]();
@@ -120,4 +153,9 @@ class VLNMobileDeviceSimulator: VLNMobileDeviceManagerProtocol
 	func getDeviceProperty(device: AnyObject!, forKey key: String!, inDomain domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!);
 	
 	func getSpringboardWallpaperOnDevice(device: AnyObject!, completion completionHandler: ((NSImage!, NSError!) -> Void)!);
+	
+	func getDeviceScreenshot(device: AnyObject!, completion completionHandler: ((NSImage!, NSError!) -> Void)!);
+	
+	func getSpringboardIconStateOnDevice(device: AnyObject!, completion completionHandler: ((NSDictionary!, NSError!) -> Void)!);
+	func setSpringboardIconStateOnDevice(device: AnyObject!, iconState iconStateDictionary: NSDictionary!, completion completionHandler: ((Bool, NSError!) -> Void)!);
 }

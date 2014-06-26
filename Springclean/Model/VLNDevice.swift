@@ -16,10 +16,14 @@ class VLNDevice: Equatable
 	var classification: VLNDeviceClass = VLNDeviceType.unknown.deviceClass();
 	var size: VLNDeviceSize = VLNDeviceSize();
 	var wallpaper: NSImage?;
+	var properties = VLNDeviceProperties();
+	
+	var springboard: VLNSpringboardObject!;
 	
 	init(uuid: String)
 	{
 		self.uuid = uuid;
+		self.springboard = VLNSpringboardObject();
 	}
 	
 	convenience init(uuid: String, name: String, type: VLNDeviceType = VLNDeviceType.unknown)
@@ -37,27 +41,54 @@ func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
 	return (lhs.uuid == rhs.uuid);
 }
 
+struct VLNDeviceProperties
+{
+	var iconGridColumns = 4, iconGridRows = 5;
+	var maxPages = 15;
+	
+	var folderGridColumns = 3, folderGridRows = 3;
+	var folderMaxPages = 15;
+	
+	var dockMaxIcons = 4;
+	
+	var iconWidth = 60, iconHeight = 60;
+	
+	var supportsVideos = true;
+	var supportsNewsStand = true;
+	var willSaveChanges = true;
+}
+
 struct VLNDeviceSize
 {
 	var width = 320.0, height = 560.0;
 	var scaleFactor = 1.0;
 	
-	func scaled(canRotate:Bool = false) -> VLNDeviceSize
+	func scaleAndRotate() -> VLNDeviceSize
+	{
+		return self.rotate().scale();
+	}
+	
+	func scale() -> VLNDeviceSize
 	{
 		var scaledSize: VLNDeviceSize = VLNDeviceSize(width: self.width, height: self.height, scaleFactor: self.scaleFactor);
-		
-		if (canRotate && self.height < 2000) {
-			scaledSize.width = self.height;
-			scaledSize.height = self.width;
-		}
-		
-		if (scaledSize.width > 1000) {
-			scaledSize.scaleFactor *= 1.1;
-			scaledSize.width /= scaledSize.scaleFactor;
-			scaledSize.height /= scaledSize.scaleFactor;
-		}
+		scaledSize.width /= scaledSize.scaleFactor;
+		scaledSize.height /= scaledSize.scaleFactor;
+		scaledSize.scaleFactor /= scaledSize.scaleFactor;
 		
 		return scaledSize;
+	}
+	
+	func rotate() -> VLNDeviceSize
+	{
+		var rotatedSize: VLNDeviceSize = VLNDeviceSize(width: self.width, height: self.height, scaleFactor: self.scaleFactor);
+		
+		if (self.height > self.width)
+		{
+			rotatedSize.width = self.height;
+			rotatedSize.height = self.width;
+		}
+		
+		return rotatedSize;
 	}
 }
 
