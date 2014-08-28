@@ -10,10 +10,10 @@ import Cocoa
 
 struct VLNSpringboardPageObject
 {
-	var icons: VLNSpringboardIconObject[];
+	var icons: [VLNSpringboardIconObject];
 	
 	init ()
 	{
-		self.icons = VLNSpringboardIconObject[]();
+		self.icons = [VLNSpringboardIconObject]();
 	}
 }

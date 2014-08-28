@@ -30,8 +30,11 @@ class VLNDeviceManager
 	
 	func removeDevice(device: VLNDevice)
 	{
-		if (device === self.selectedDevice) {
-			self.selectedDevice = nil;
+		if let currentDevice = self.selectedDevice
+		{
+			if (device === currentDevice) {
+				self.selectedDevice = nil;
+			}
 		}
 		
 		self.devices.removeObject(device);
@@ -39,8 +42,11 @@ class VLNDeviceManager
 	
 	func removeDevices(devices: NSArray)
 	{
-		if (devices.containsObject(self.selectedDevice)) {
-			self.selectedDevice = nil;
+		if let currentDevice = self.selectedDevice
+		{
+			if (devices.containsObject(currentDevice)) {
+				self.selectedDevice = nil;
+			}
 		}
 		
 		self.devices.removeObjectsInArray(devices);

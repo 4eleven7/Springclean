@@ -43,25 +43,25 @@ func == (lhs: VLNDevice, rhs: VLNDevice) -> Bool
 
 struct VLNDeviceProperties
 {
-	var iconGridColumns = 4, iconGridRows = 5;
-	var maxPages = 15;
+	var iconGridColumns = 0, iconGridRows = 0;
+	var maxPages = 0;
 	
-	var folderGridColumns = 3, folderGridRows = 3;
-	var folderMaxPages = 15;
+	var folderGridColumns = 0, folderGridRows = 0;
+	var folderMaxPages = 0;
 	
-	var dockMaxIcons = 4;
+	var dockMaxIcons = 0;
 	
-	var iconWidth = 60, iconHeight = 60;
+	var iconWidth = 0, iconHeight = 0;
 	
-	var supportsVideos = true;
-	var supportsNewsStand = true;
-	var willSaveChanges = true;
+	var supportsVideos = false;
+	var supportsNewsStand = false;
+	var willSaveChanges = false;
 }
 
 struct VLNDeviceSize
 {
-	var width = 320.0, height = 560.0;
-	var scaleFactor = 1.0;
+	var width : CGFloat = 320.0, height : CGFloat = 560.0;
+	var scaleFactor : CGFloat = 1.0;
 	
 	func scaleAndRotate() -> VLNDeviceSize
 	{

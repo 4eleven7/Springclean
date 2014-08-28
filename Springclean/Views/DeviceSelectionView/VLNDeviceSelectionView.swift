@@ -24,7 +24,7 @@ class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 	func numberOfRowsInTableView(tableView: NSTableView!) -> Int
 	{
 		var numberOfDevices = 0
-		if (self.delegate) {
+		if (self.delegate != nil) {
 			numberOfDevices = self.delegate!.deviceSelectionViewNumberOfDevices(self);
 		}
 		return numberOfDevices;
@@ -45,7 +45,7 @@ class VLNDeviceSelectionView: NSView, NSTableViewDataSource, NSTableViewDelegate
 	}
 }
 
-@class_protocol protocol VLNDeviceSelectionDelegate
+protocol VLNDeviceSelectionDelegate
 {
 	func deviceSelectionView(view:VLNDeviceSelectionView!, selectedIndex:Int);
 	func deviceSelectionViewNumberOfDevices(view:VLNDeviceSelectionView!) -> Int;

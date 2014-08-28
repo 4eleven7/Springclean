@@ -10,25 +10,25 @@ import Cocoa
 
 class MainWindow: NSWindow
 {
-	@IBOutlet var sidebar: NSVisualEffectView;
-	@IBOutlet var springboard: VLNSpringboardContainer;
+	@IBOutlet var sidebar: NSVisualEffectView!;
+	@IBOutlet var springboard: VLNSpringboardContainer!;
 	
-	@IBOutlet var springboardWidthConstraint: NSLayoutConstraint;
-	@IBOutlet var springboardHeightConstraint: NSLayoutConstraint;
+	@IBOutlet var springboardWidthConstraint: NSLayoutConstraint!;
+	@IBOutlet var springboardHeightConstraint: NSLayoutConstraint!;
 	
-	@IBOutlet var _connectView: VLNConnectView;
-	@IBOutlet var _deviceSelectionView: VLNDeviceSelectionView;
+	@IBOutlet var _connectView: VLNConnectView?;
+	@IBOutlet var _deviceSelectionView: VLNDeviceSelectionView?;
 	
 	var connectView: VLNConnectView
 	{
 		get
 		{
-			if (!self._connectView) {
+			if (self._connectView == nil) {
 				self.instantiateViewFromNib("VLNConnectView");
 				self.connectView.translatesAutoresizingMaskIntoConstraints = false;
 			}
 			
-			return self._connectView;
+			return self._connectView!;
 		}
 	}
 	
@@ -36,12 +36,12 @@ class MainWindow: NSWindow
 	{
 		get
 		{
-			if (!self._deviceSelectionView) {
+			if (self._deviceSelectionView == nil) {
 				self.instantiateViewFromNib("VLNDeviceSelectionView");
 				self.deviceSelectionView.translatesAutoresizingMaskIntoConstraints = false;
 			}
 			
-			return self._deviceSelectionView;
+			return self._deviceSelectionView!;
 		}
 	}
 	
@@ -57,7 +57,7 @@ class MainWindow: NSWindow
 	
 	func showConnectToDeviceView()
 	{
-		if (self.connectView.superview != self.contentView as NSView)
+		if (self.connectView.superview != self.contentView as? NSView)
 		{
 			self.contentView.addSubview(self.connectView);
 			
@@ -96,7 +96,7 @@ class MainWindow: NSWindow
 	
 	func showDeviceSelectionView(delegate:VLNDeviceSelectionDelegate? = nil)
 	{
-		if (self.deviceSelectionView.superview != self.contentView as NSView)
+		if (self.deviceSelectionView.superview != self.contentView as? NSView)
 		{
 			self.contentView.addSubview(self.deviceSelectionView);
 			

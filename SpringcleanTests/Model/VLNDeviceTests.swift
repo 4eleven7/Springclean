@@ -138,4 +138,58 @@ class VLNDeviceTests: XCTestCase
 		XCTAssertEqual(scaledAndRotatedSize.height, 200.0, "Device height shouldd be set to 200");
 		XCTAssertEqual(scaledAndRotatedSize.scaleFactor, 1.0, "Device scale should be set to 1");
 	}
+	
+	func testDeviceSpringboardProperties()
+	{
+		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
+		
+		XCTAssertEqual(device.properties.iconGridColumns, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconGridRows, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.maxPages, 0, "Device properties should not be set");
+		
+		XCTAssertEqual(device.properties.folderGridColumns, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.folderGridRows, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.folderMaxPages, 0, "Device properties should not be set");
+		
+		XCTAssertEqual(device.properties.dockMaxIcons, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconWidth, 0, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconHeight, 0, "Device properties should not be set");
+		
+		XCTAssertFalse(device.properties.supportsVideos, "Device properties should not be set");
+		XCTAssertFalse(device.properties.supportsNewsStand, "Device properties should not be set");
+		XCTAssertFalse(device.properties.willSaveChanges, "Device properties should not be set");
+		
+		device.properties.iconGridColumns = 4;
+		device.properties.iconGridRows = 5;
+		device.properties.maxPages = 15;
+		
+		device.properties.folderGridColumns = 3;
+		device.properties.folderGridRows = 3;
+		device.properties.folderMaxPages = 15;
+		
+		device.properties.dockMaxIcons = 4;
+		
+		device.properties.iconWidth = 60;
+		device.properties.iconHeight = 60;
+		
+		device.properties.supportsVideos = true;
+		device.properties.supportsNewsStand = true;
+		device.properties.willSaveChanges = true;
+		
+		XCTAssertEqual(device.properties.iconGridColumns, 4, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconGridRows, 5, "Device properties should not be set");
+		XCTAssertEqual(device.properties.maxPages, 15, "Device properties should not be set");
+		
+		XCTAssertEqual(device.properties.folderGridColumns, 3, "Device properties should not be set");
+		XCTAssertEqual(device.properties.folderGridRows, 3, "Device properties should not be set");
+		XCTAssertEqual(device.properties.folderMaxPages, 15, "Device properties should not be set");
+		
+		XCTAssertEqual(device.properties.dockMaxIcons, 4, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconWidth, 60, "Device properties should not be set");
+		XCTAssertEqual(device.properties.iconHeight, 60, "Device properties should not be set");
+		
+		XCTAssertTrue(device.properties.supportsVideos, "Device properties should not be set");
+		XCTAssertTrue(device.properties.supportsNewsStand, "Device properties should not be set");
+		XCTAssertTrue(device.properties.willSaveChanges, "Device properties should not be set");
+	}
 }

@@ -46,8 +46,8 @@ class VLNMobileDeviceConnector: NSObject
 			for rawDevice : AnyObject in self.deviceConnector.devices()
 			{
 				var newDevice: VLNMobileDeviceProtocol;
-				if (rawDevice.isKindOfClass(VLNMobileDevice)) {
-					newDevice = rawDevice as VLNMobileDevice;
+				if (rawDevice.isKindOfClass(VLNMobileDeviceMock)) {
+					newDevice = rawDevice as VLNMobileDeviceMock;
 				} else {
 					newDevice = rawDevice as VLNMobileDeviceProtocol;
 				}
@@ -70,8 +70,8 @@ class VLNMobileDeviceConnector: NSObject
 			var result: Bool = (newDevices.count != 0 || oldDevices.count != 0);
 			dispatch_async(dispatch_get_main_queue(),
 			{
-				if (handler) {
-					handler!(result);
+				if let completionHandler = handler {
+					completionHandler(result);
 				}
 				
 				self.postDeviceListDidChange();
@@ -88,8 +88,8 @@ class VLNMobileDeviceConnector: NSObject
 	{
 		let rawDevice: AnyObject = self.deviceConnector.deviceWithUDID(UDID);
 		var newDevice: VLNMobileDeviceProtocol;
-		if (rawDevice.isKindOfClass(VLNMobileDevice)) {
-			newDevice = rawDevice as VLNMobileDevice;
+		if (rawDevice.isKindOfClass(VLNMobileDeviceMock)) {
+			newDevice = rawDevice as VLNMobileDeviceMock;
 		} else {
 			newDevice = rawDevice as VLNMobileDeviceProtocol;
 		}
@@ -128,7 +128,7 @@ class VLNMobileDeviceConnector: NSObject
 		var error: NSError?;
 		var subscribed: Bool = self.deviceConnector.subscribeForNotifications(&error);
 		
-		if (error) {
+		if (error != nil) {
 			NSLog("Unable to subscribe (%i) %@", subscribed, error!);
 		}
 	}
@@ -141,7 +141,7 @@ class VLNMobileDeviceConnector: NSObject
 		var error: NSError?;
 		var unsubscribed: Bool = self.deviceConnector.unsubscribeForNotifications(&error);
 		
-		if (error) {
+		if (error != nil) {
 			NSLog("Unable to unsubscribe (%i) %@", unsubscribed, error!);
 		}
 	}
@@ -155,13 +155,15 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceAddedNotification(notification: NSNotification)
 	{
-		var UDID: String = notification.userInfo.objectForKey(iMDVLNDeviceNotificationKeyUDID) as String;
-		if (UDID != nil && !UDID.isEmpty)
+		if let userInfo = notification.userInfo
 		{
-			if (self.existingDevice(UDID) == nil) {
-				self.addDevice(UDID, addAndNotify: true);
+			var UDID: String = (userInfo[iMDVLNDeviceNotificationKeyUDID] as NSString);
+			if (UDID.isEmpty == false)
+			{
+				if (self.existingDevice(UDID) == nil) {
+					self.addDevice(UDID, addAndNotify: true);
+				}
 			}
-			return
 		}
 		
 		self.reloadDeviceList();
@@ -169,13 +171,15 @@ class VLNMobileDeviceConnector: NSObject
 	
 	func deviceRemovedNotification(notification: NSNotification)
 	{
-		var UDID: String = notification.userInfo.valueForKey(iMDVLNDeviceNotificationKeyUDID) as String;
-		if (UDID != nil && !UDID.isEmpty)
+		if let userInfo = notification.userInfo
 		{
-			if (self.existingDevice(UDID) != nil) {
-				self.removeDevice(UDID, removeAndNotify: true);
+			var UDID: String = (userInfo[iMDVLNDeviceNotificationKeyUDID] as NSString);
+			if (UDID.isEmpty == false)
+			{
+				if (self.existingDevice(UDID) == nil) {
+					self.removeDevice(UDID, removeAndNotify: true);
+				}
 			}
-			return
 		}
 		
 		self.reloadDeviceList();

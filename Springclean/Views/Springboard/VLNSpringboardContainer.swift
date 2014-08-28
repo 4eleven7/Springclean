@@ -12,12 +12,12 @@ class VLNSpringboardContainer: NSView
 {
 	var delegate: VLNSpringboardContainerDelegate?;
 	
-	@IBOutlet var wallpaper: NSImageView;
+	@IBOutlet var wallpaper: NSImageView!;
 	
-	@IBOutlet var wallpaperTopConstraint: NSLayoutConstraint;
-	@IBOutlet var wallpaperLeftConstraint: NSLayoutConstraint;
-	@IBOutlet var wallpaperRightConstraint: NSLayoutConstraint;
-	@IBOutlet var wallpaperBottomConstraint: NSLayoutConstraint;
+	@IBOutlet var wallpaperTopConstraint: NSLayoutConstraint!;
+	@IBOutlet var wallpaperLeftConstraint: NSLayoutConstraint!;
+	@IBOutlet var wallpaperRightConstraint: NSLayoutConstraint!;
+	@IBOutlet var wallpaperBottomConstraint: NSLayoutConstraint!;
 	
 	var device: VLNDevice?
 	{
@@ -57,7 +57,7 @@ class VLNSpringboardContainer: NSView
 	}
 }
 
-@class_protocol protocol VLNSpringboardContainerDelegate
+protocol VLNSpringboardContainerDelegate
 {
 	func springboardResize(deviceType:VLNDeviceType, deviceSize:VLNDeviceSize);
 }
