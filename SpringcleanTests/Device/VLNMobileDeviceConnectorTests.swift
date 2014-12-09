@@ -11,14 +11,14 @@ import XCTest
 class VLNMobileDeviceConnectorTests: XCTestCase
 {
 	var deviceConnector: VLNMobileDeviceConnector!;
-	var deviceSimulator: VLNMobileDeviceSimulator!;
+	var deviceSimulator: VLNMobileDeviceManagerMock!;
 	var deviceManager: VLNDeviceManager!;
 	
 	override func setUp()
 	{
 		super.setUp()
 		
-		self.deviceSimulator = VLNMobileDeviceSimulator();
+		self.deviceSimulator = VLNMobileDeviceManagerMock();
 		self.deviceManager = VLNDeviceManager();
 		self.deviceConnector = VLNMobileDeviceConnector(deviceManager: self.deviceManager, deviceConnector: self.deviceSimulator);
 	}
@@ -143,7 +143,7 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 	{
 		XCTAssertEqual(self.deviceManager.devices.count, 0, "Should not have any devices");
 		
-		var device: VLNMobileDevice = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n49ap);
+		var device: VLNMobileDeviceMock = self.deviceSimulator.addSimulatedDevice(VLNDeviceType.iPhone5C_n49ap);
 		
 		self.expectationForNotification(VLNDeviceManagerDeviceListChangedNotification, object:nil, handler:
 		{
@@ -156,7 +156,15 @@ class VLNMobileDeviceConnectorTests: XCTestCase
 		{
 			notification in
 				XCTAssertNotNil(notification, "Notfication should not be empty");
-				XCTAssertEqual(notification.userInfo.objectForKey(iMDVLNDeviceNotificationKeyUDID) as String, device.UDID, "Notification UDID should be same as the device");
+			
+				if let userInfo = notification.userInfo
+				{
+					XCTAssertEqual(userInfo[iMDVLNDeviceNotificationKeyUDID]! as NSString, device.UDID, "Notification UDID should be same as the device");
+				}
+				else
+				{
+					XCTFail("No user info in notification");
+				}
 				return true;
 		});
 		

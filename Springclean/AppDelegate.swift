@@ -193,13 +193,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	    // The directory the application uses to store the Core Data store file. This code uses a directory named "net.daniellove.Test" in the user's Application Support directory.
 	    let urls = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)
 	    let appSupportURL = urls[urls.count - 1] as NSURL
-	    return appSupportURL.URLByAppendingPathComponent("net.daniellove.Test")
+	    return appSupportURL.URLByAppendingPathComponent("net.daniellove.Springclean")
 	}()
 
 	lazy var managedObjectModel: NSManagedObjectModel = {
 	    // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-	    let modelURL = NSBundle.mainBundle().URLForResource("Test", withExtension: "momd")
-	    return NSManagedObjectModel(contentsOfURL: modelURL)
+	    let modelURL = NSBundle.mainBundle().URLForResource("Springclean", withExtension: "momd")
+	    return NSManagedObjectModel(contentsOfURL: modelURL!)!
 	}()
 
 	lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
@@ -225,7 +225,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	    var coordinator: NSPersistentStoreCoordinator?
 	    if !shouldFail && (error == nil) {
 	        coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-	        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Test.storedata")
+	        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Springclean.storedata")
 	        if coordinator!.addPersistentStoreWithType(NSXMLStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
 	            coordinator = nil
 	        }
@@ -239,8 +239,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	        if error != nil {
 	            dict[NSUnderlyingErrorKey] = error
 	        }
-	        error = NSError.errorWithDomain("YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-	        NSApplication.sharedApplication().presentError(error)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+	        NSApplication.sharedApplication().presentError(error!)
 	        return nil
 	    } else {
 	        return coordinator
@@ -268,7 +268,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	        }
 	        var error: NSError? = nil
 	        if moc.hasChanges && !moc.save(&error) {
-	            NSApplication.sharedApplication().presentError(error)
+	            NSApplication.sharedApplication().presentError(error!)
 	        }
 	    }
 	}
@@ -298,7 +298,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, VLNDeviceSelectionDelegate
 	        var error: NSError? = nil
 	        if !moc.save(&error) {
 	            // Customize this code block to include application-specific recovery steps.
-	            let result = sender.presentError(error)
+	            let result = sender.presentError(error!)
 	            if (result) {
 	                return .TerminateCancel
 	            }

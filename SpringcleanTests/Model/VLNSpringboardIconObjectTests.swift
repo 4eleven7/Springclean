@@ -14,7 +14,7 @@ class VLNSpringboardIconObjectTests: XCTestCase
 	{
 		var icon: VLNSpringboardIconObject = VLNSpringboardIconObject(displayName: "Phone", displayIdentifier: "com.apple.phone");
 		
-		XCTAssertTrue(icon != nil, "Should have an icon");
+		XCTAssertNotNil(icon, "Should have an icon");
 		
 		XCTAssertEqual(icon.displayName!, "Phone", "Display Name should be set");
 		XCTAssertEqual(icon.displayIdentifier!, "com.apple.phone", "Display Identifier should be set");
@@ -29,8 +29,8 @@ class VLNSpringboardIconObjectTests: XCTestCase
 		var dateFormatter: NSDateFormatter = NSDateFormatter();
 		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 		
-		var date: NSDate = dateFormatter.dateFromString("1983-02-25T16:34:53Z");
-		XCTAssertEqualObjects(icon.iconModDate!, date, "Display Mod Date should be set");
+		var date: NSDate = dateFormatter.dateFromString("1983-02-25T16:34:53Z")!;
+		XCTAssertEqual(icon.iconModDate!, date, "Display Mod Date should be set");
 	}
 	
 	func testInstallingIsMonitored()
@@ -53,8 +53,8 @@ class VLNSpringboardIconObjectTests: XCTestCase
 		var dictionaryRepresentation: Dictionary = icon.dictionaryRepresentation();
 		
 		XCTAssertEqual(dictionaryRepresentation.count, 3, "Should have 3 keys");
-		XCTAssertEqualObjects(dictionaryRepresentation["displayIdentifier"], "com.apple.phone", "Display Identifier should be set");
-		XCTAssertEqualObjects(dictionaryRepresentation["displayName"], "Phone", "Display Name should be set");
-		XCTAssertEqualObjects(dictionaryRepresentation["iconModDate"], "1983-02-25T16:34:53Z", "Display Identifier should be set");
+		XCTAssertEqual(dictionaryRepresentation["displayIdentifier"]!, "com.apple.phone", "Display Identifier should be set");
+		XCTAssertEqual(dictionaryRepresentation["displayName"]!, "Phone", "Display Name should be set");
+		XCTAssertEqual(dictionaryRepresentation["iconModDate"]!, "1983-02-25T16:34:53Z", "Display Identifier should be set");
 	}
 }

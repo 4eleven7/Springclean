@@ -50,7 +50,7 @@ class MainWindow: NSWindow
 	func instantiateViewFromNib(name:String)
 	{
 		var nib = NSNib(nibNamed:name, bundle: nil);
-		nib.instantiateWithOwner(self, topLevelObjects: nil);
+        nib?.instantiateWithOwner(self, topLevelObjects: nil)
 	}
 	
 // MARK: Connect To Device View

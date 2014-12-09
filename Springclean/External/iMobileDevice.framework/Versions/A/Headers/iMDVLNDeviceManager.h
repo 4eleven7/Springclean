@@ -6,28 +6,26 @@
 //  Copyright (c) 2014 Daniel Love. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @class iMDVLNDevice;
 
 @interface iMDVLNDeviceManager : NSObject
 
-@property (nonatomic, readonly, getter=isSubscribed) BOOL subscribed;
-
 + (instancetype) sharedManager;
+
+#pragma mark - Device notifications
+
+@property (nonatomic, readonly, getter=isSubscribed) BOOL subscribed;
 
 - (BOOL) subscribeForNotifications:(NSError **)error;
 
 - (BOOL) unsubscribeForNotifications:(NSError **)error;
 
-- (NSArray *)devices;
+#pragma mark - Devices
 
-#pragma mark - Lockdownd
+- (NSArray *) devices;
 
-- (id) getDeviceProperty:(id)device forKey:(NSString *)key inDomain:(NSString *)domain error:(NSError **)error;
-
-#pragma mark - SBServices
-
-- (NSImage *) getSpringboardWallpaperOnDevice:(iMDVLNDevice *)device error:(NSError **)error;
+- (id) deviceWithUDID:(NSString *)UDID;
 
 @end

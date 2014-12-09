@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		420F78F41954A0FF00839DFA /* VLNMobileDeviceManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F78F31954A0FF00839DFA /* VLNMobileDeviceManagerMock.swift */; };
 		420F78F61954A38500839DFA /* VLNMobileDeviceConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ADB6DA194B84F900FEB686 /* VLNMobileDeviceConnector.swift */; };
-		421BDC84194EFA8E001D0F45 /* iMobileDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 421BDC7F194EFA38001D0F45 /* iMobileDevice.framework */; };
 		425CC986194BBBB2007D175B /* VLNMobileDeviceConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ADB6DA194B84F900FEB686 /* VLNMobileDeviceConnector.swift */; };
 		42AD070F19461AD900CE37D4 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AD070E19461AD900CE37D4 /* MainWindow.swift */; };
 		42ADB6DD194B91DB00FEB686 /* VLNMobileDeviceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ADB6DC194B91DB00FEB686 /* VLNMobileDeviceMock.swift */; };
@@ -56,20 +55,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		421BDC7E194EFA38001D0F45 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 425CC9D4194CB1A0007D175B;
-			remoteInfo = iMobileDevice;
-		};
-		421BDC80194EFA38001D0F45 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 42E4E317194CC1D500634F1B;
-			remoteInfo = iMobileTestApp;
-		};
 		42B959AD19450052005E11F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 42B9598F19450052005E11F1 /* Project object */;
@@ -77,12 +62,19 @@
 			remoteGlobalIDString = 42B9599619450052005E11F1;
 			remoteInfo = Springclean;
 		};
-		42F1FA1D19548BF800D3B536 /* PBXContainerItemProxy */ = {
+		797F7D9E1A34D1A8005E2967 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4255F34B197DA822009E9621;
+			proxyType = 2;
+			remoteGlobalIDString = 4255F34C197DA822009E9621;
 			remoteInfo = iMobileDevice;
+		};
+		797F7DA01A34D1A8005E2967 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4255F3DC197DB0DE009E9621;
+			remoteInfo = iMobileTestApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -100,7 +92,7 @@
 
 /* Begin PBXFileReference section */
 		420F78F31954A0FF00839DFA /* VLNMobileDeviceManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNMobileDeviceManagerMock.swift; sourceTree = "<group>"; };
-		421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = iMobileDevice.xcodeproj; path = "../../Open-Source/iMobileDevice/iMobileDevice.xcodeproj"; sourceTree = "<group>"; };
+		421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = iMobileDevice.xcodeproj; path = "../Open-Source/iMobileDevice/iMobileDevice.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		42AD070E19461AD900CE37D4 /* MainWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		42ADB6DA194B84F900FEB686 /* VLNMobileDeviceConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNMobileDeviceConnector.swift; sourceTree = "<group>"; };
 		42ADB6DC194B91DB00FEB686 /* VLNMobileDeviceMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLNMobileDeviceMock.swift; sourceTree = "<group>"; };
@@ -146,7 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				421BDC84194EFA8E001D0F45 /* iMobileDevice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,15 +151,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		421BDC7A194EFA37001D0F45 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				421BDC7F194EFA38001D0F45 /* iMobileDevice.framework */,
-				421BDC81194EFA38001D0F45 /* iMobileTestApp.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		42ADB6D9194B84F900FEB686 /* MobileDevice */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +317,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		797F7D9A1A34D1A8005E2967 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				797F7D9F1A34D1A8005E2967 /* iMobileDevice.framework */,
+				797F7DA11A34D1A8005E2967 /* iMobileTestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -350,7 +341,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				42F1FA1E19548BF800D3B536 /* PBXTargetDependency */,
 			);
 			name = Springclean;
 			productName = Springclean;
@@ -407,7 +397,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 421BDC7A194EFA37001D0F45 /* Products */;
+					ProductGroup = 797F7D9A1A34D1A8005E2967 /* Products */;
 					ProjectRef = 421BDC79194EFA37001D0F45 /* iMobileDevice.xcodeproj */;
 				},
 			);
@@ -420,18 +410,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		421BDC7F194EFA38001D0F45 /* iMobileDevice.framework */ = {
+		797F7D9F1A34D1A8005E2967 /* iMobileDevice.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = iMobileDevice.framework;
-			remoteRef = 421BDC7E194EFA38001D0F45 /* PBXContainerItemProxy */;
+			remoteRef = 797F7D9E1A34D1A8005E2967 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		421BDC81194EFA38001D0F45 /* iMobileTestApp.app */ = {
+		797F7DA11A34D1A8005E2967 /* iMobileTestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = iMobileTestApp.app;
-			remoteRef = 421BDC80194EFA38001D0F45 /* PBXContainerItemProxy */;
+			remoteRef = 797F7DA01A34D1A8005E2967 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -520,11 +510,6 @@
 			isa = PBXTargetDependency;
 			target = 42B9599619450052005E11F1 /* Springclean */;
 			targetProxy = 42B959AD19450052005E11F1 /* PBXContainerItemProxy */;
-		};
-		42F1FA1E19548BF800D3B536 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = iMobileDevice;
-			targetProxy = 42F1FA1D19548BF800D3B536 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

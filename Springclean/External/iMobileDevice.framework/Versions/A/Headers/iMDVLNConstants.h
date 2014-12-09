@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 FOUNDATION_EXPORT NSString *iMDVLNDeviceErrorDomain;
 FOUNDATION_EXPORT NSString *iMDVLNDeviceAddedNotification;

@@ -8,13 +8,15 @@
 
 import Cocoa
 
-class VLNMobileDeviceMock : VLNMobileDeviceProtocol
+class VLNMobileDeviceMock : NSObject, VLNMobileDeviceProtocol
 {
-	var simulatedProperties = ["name" : "Dan's iPhone",
+	var simulatedProperties = [
+								"name" : "Dan's iPhone",
 								"productType" : "iPhone6,1",
 								"screenHeight" :  "560",
 								"screenWidth" :  "320",
-								"screenScaleFactor" :  "1"];
+								"screenScaleFactor" :  "1"
+								];
 	
 	var UDID: String!;
 	
@@ -46,16 +48,9 @@ class VLNMobileDeviceMock : VLNMobileDeviceProtocol
 	var springboardNewsStandSupported: Bool = false;
 	var springboardWillSaveIconStateChanges: Bool = false;
 	
-	required init()
-	{
-		
-	}
-	
-	required convenience init(UDID: String!)
+	init(UDID: String!)
 	{
 		self.UDID = UDID;
-		
-		self.init();
 	}
 	
 	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!)
@@ -212,7 +207,7 @@ class VLNMobileDeviceMock : VLNMobileDeviceProtocol
 	var springboardNewsStandSupported: Bool { get }
 	var springboardWillSaveIconStateChanges: Bool { get }
 	
-	init(UDID: String!)
+	//init(UDID: String!)
 	
 	func loadBasicDevicePropertiesWithCompletion(completionHandler: (() -> Void)!)
 	func loadProperty(key: String!, domain: String!, completion completionHandler: ((AnyObject!, NSError!) -> Void)!)

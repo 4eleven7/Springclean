@@ -53,10 +53,9 @@ class VLNMobileDeviceConnector: NSObject
 				}
 				
 				// Already exists?
-				var currentDevice: VLNDevice? = self.existingDevice(newDevice.UDID) as? VLNDevice;
-				if (currentDevice != nil)
+				if let device: VLNDevice = self.existingDevice(newDevice.UDID) as? VLNDevice
 				{
-					oldDevices.removeObject(currentDevice);
+					oldDevices.removeObject(device);
 					continue;
 				}
 				

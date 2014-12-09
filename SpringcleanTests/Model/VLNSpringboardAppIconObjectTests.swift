@@ -14,7 +14,7 @@ class VLNSpringboardAppIconObjectTests: XCTestCase
 	{
 		var icon: VLNSpringboardAppIconObject = VLNSpringboardAppIconObject(displayName: "Phone", displayIdentifier: "com.apple.phone", bundleIdentifier: "com.apple.mobile", bundleVersion: "11.0");
 		
-		XCTAssertTrue(icon != nil, "Should have an icon");
+		XCTAssertNotNil(icon, "Should have an icon");
 		
 		XCTAssertEqual(icon.displayName!, "Phone", "Display Name should be set");
 		XCTAssertEqual(icon.displayIdentifier!, "com.apple.phone", "Display Identifier should be set");
@@ -31,7 +31,7 @@ class VLNSpringboardAppIconObjectTests: XCTestCase
 		var dictionaryRepresentation: Dictionary = icon.dictionaryRepresentation();
 		
 		XCTAssertEqual(dictionaryRepresentation.count, 5, "Should have 5 keys");
-		XCTAssertEqualObjects(dictionaryRepresentation["bundleIdentifier"], "com.apple.mobile", "Bundle Identifier should be set");
-		XCTAssertEqualObjects(dictionaryRepresentation["bundleVersion"], "11.0", "Bundle Version should be set");
+		XCTAssertEqual(dictionaryRepresentation["bundleIdentifier"]!, "com.apple.mobile", "Bundle Identifier should be set");
+		XCTAssertEqual(dictionaryRepresentation["bundleVersion"]!, "11.0", "Bundle Version should be set");
 	}
 }

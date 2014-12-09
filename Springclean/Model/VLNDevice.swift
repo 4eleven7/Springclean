@@ -253,5 +253,5 @@ enum VLNDeviceType: String
 
 func == (lhs: VLNDeviceType, rhs: VLNDeviceType) -> Bool
 {
-	return (lhs.toRaw() == rhs.toRaw());
+	return (lhs.rawValue == rhs.rawValue);
 }

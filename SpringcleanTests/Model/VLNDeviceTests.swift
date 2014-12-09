@@ -10,13 +10,6 @@ import XCTest
 
 class VLNDeviceTests: XCTestCase
 {
-	func testDeviceCreation()
-	{
-		var device: VLNDevice = VLNDevice(uuid: "666");
-		
-		XCTAssertNotNil(device == nil, "Device should not be empty")
-	}
-	
 	func testDeviceUUID()
 	{
 		var device: VLNDevice = VLNDevice(uuid: "3d6ad3e5d74f6dd90381fa13910fef0c30858269");
@@ -59,7 +52,7 @@ class VLNDeviceTests: XCTestCase
 	
 	func testDeviceFromRaw()
 	{
-		var type: VLNDeviceType = VLNDeviceType.fromRaw("iPhone6,1")!;
+		var type: VLNDeviceType = VLNDeviceType(rawValue: "iPhone6,1")!;
 		
 		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPhone 5S", type:type);
 		
@@ -77,12 +70,12 @@ class VLNDeviceTests: XCTestCase
 	
 	func testFutureDeviceFromRaw()
 	{
-		var type: VLNDeviceType? = VLNDeviceType.fromRaw("iWatch1,1");
-		
-		if !type {
+		var type: VLNDeviceType? = VLNDeviceType(rawValue: "iWatch1,1");
+		/*
+		if (type != nil) {
 			type = VLNDeviceType.unknown;
 		}
-		
+		*/
 		var device: VLNDevice = VLNDevice(uuid: "666", name: "iWatch", type:type!);
 		
 		XCTAssertEqual(device.type.modelName(), "Unknown", "Device model name should be unknown");
@@ -92,17 +85,17 @@ class VLNDeviceTests: XCTestCase
 	{
 		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
 		
-		XCTAssertEqual(device.size.width, 320.0, "Device width should be the default of 320");
-		XCTAssertEqual(device.size.height, 560.0, "Device height should be the default of 560");
-		XCTAssertEqual(device.size.scaleFactor, 1.0, "Device scale should be the default of 1");
+		XCTAssertTrue(device.size.width == 320.0, "Device width should be the default of 320");
+		XCTAssertTrue(device.size.height == 560.0, "Device height should be the default of 560");
+		XCTAssertTrue(device.size.scaleFactor == 1.0, "Device scale should be the default of 1");
 		
 		device.size = VLNDeviceSize(width: 500.0, height: 400.0, scaleFactor:2.0);
 		
-		XCTAssertEqual(device.size.width, 500.0, "Device width should be set to 500");
-		XCTAssertEqual(device.size.height, 400.0, "Device height shouldd be set to 400");
-		XCTAssertEqual(device.size.scaleFactor, 2.0, "Device scale should be set to 2");
+		XCTAssertTrue(device.size.width == 500.0, "Device width should be set to 500");
+		XCTAssertTrue(device.size.height == 400.0, "Device height shouldd be set to 400");
+		XCTAssertTrue(device.size.scaleFactor == 2.0, "Device scale should be set to 2");
 	}
-	
+    
 	func testDeviceSizeScaled()
 	{
 		var device: VLNDevice = VLNDevice(uuid: "666", name: "iPad Mini", type:VLNDeviceType.iPadMini_p106ap);
@@ -110,9 +103,9 @@ class VLNDeviceTests: XCTestCase
 		
 		var scaledSize: VLNDeviceSize = device.size.scale();
 		
-		XCTAssertEqual(scaledSize.width, 200.0, "Device width should be set to 200");
-		XCTAssertEqual(scaledSize.height, 250.0, "Device height shouldd be set to 250");
-		XCTAssertEqual(scaledSize.scaleFactor, 1.0, "Device scale should be set to 1");
+		XCTAssertTrue(scaledSize.width == 200.0, "Device width should be set to 200");
+		XCTAssertTrue(scaledSize.height == 250.0, "Device height shouldd be set to 250");
+		XCTAssertTrue(scaledSize.scaleFactor == 1.0, "Device scale should be set to 1");
 	}
 	
 	func testDeviceSizeRotated()
@@ -122,9 +115,9 @@ class VLNDeviceTests: XCTestCase
 		
 		var scaledSize: VLNDeviceSize = device.size.rotate();
 		
-		XCTAssertEqual(scaledSize.width, 800.0, "Device width should be set to 400");
-		XCTAssertEqual(scaledSize.height, 400.0, "Device height shouldd be set to 200");
-		XCTAssertEqual(scaledSize.scaleFactor, 2.0, "Device scale should be set to 1");
+		XCTAssertTrue(scaledSize.width == 800.0, "Device width should be set to 400");
+		XCTAssertTrue(scaledSize.height == 400.0, "Device height shouldd be set to 200");
+		XCTAssertTrue(scaledSize.scaleFactor == 2.0, "Device scale should be set to 1");
 	}
 	
 	func testDeviceSizeScaledAndRotated()
@@ -134,9 +127,9 @@ class VLNDeviceTests: XCTestCase
 		
 		var scaledAndRotatedSize: VLNDeviceSize = device.size.scaleAndRotate();
 		
-		XCTAssertEqual(scaledAndRotatedSize.width, 400.0, "Device width should be set to 200");
-		XCTAssertEqual(scaledAndRotatedSize.height, 200.0, "Device height shouldd be set to 200");
-		XCTAssertEqual(scaledAndRotatedSize.scaleFactor, 1.0, "Device scale should be set to 1");
+		XCTAssertTrue(scaledAndRotatedSize.width == 400.0, "Device width should be set to 200");
+		XCTAssertTrue(scaledAndRotatedSize.height == 200.0, "Device height shouldd be set to 200");
+		XCTAssertTrue(scaledAndRotatedSize.scaleFactor == 1.0, "Device scale should be set to 1");
 	}
 	
 	func testDeviceSpringboardProperties()

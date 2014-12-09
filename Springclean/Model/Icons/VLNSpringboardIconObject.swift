@@ -21,7 +21,7 @@ class VLNSpringboardIconObject: VLNModelDictionaryRepresentationProtocol
 			var dateFormatter: NSDateFormatter = NSDateFormatter();
 			dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 			
-			self.iconModDate = dateFormatter.dateFromString(newValue);
+			self.iconModDate = dateFormatter.dateFromString(newValue!);
 		}
 	}
 	

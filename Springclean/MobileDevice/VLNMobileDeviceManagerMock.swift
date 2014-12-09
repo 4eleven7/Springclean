@@ -49,7 +49,7 @@ class VLNMobileDeviceManagerMock : VLNMobileDeviceManagerProtocol
 	{
 		var device: VLNMobileDeviceMock = VLNMobileDeviceMock(UDID: getUUID());
 		device.name = type.modelName();
-		device.productType = type.toRaw();
+		device.productType = type.rawValue;
 		
 		self.simulatedDevices.append(device);
 		

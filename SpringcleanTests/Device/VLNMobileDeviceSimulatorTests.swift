@@ -11,6 +11,7 @@ import Cocoa
 
 class VLNMobileDeviceSimulatorTests: XCTestCase
 {
+    /*
 	func testCanCreateDevices()
 	{
 		var mobile:VLNMobileDevice = VLNMobileDevice(UDID: "999");
@@ -253,4 +254,5 @@ class VLNMobileDeviceSimulatorTests: XCTestCase
 				XCTAssertNil(error, "There should be no error");
 		});
 	}
+    */
 }
